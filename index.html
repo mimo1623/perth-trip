@@ -1,0 +1,1410 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="2026年西澳14天四人自驾行程计划">
+  <meta name="robots" content="noindex,nofollow">
+  <title>西澳14天行程计划｜2026</title>
+  <style>
+    :root {
+      --ink: #1c1c1e;
+      --ink-soft: #555a6a;
+      --deep: #050038;
+      --ocean: #4262ff;
+      --ocean-soft: #f5f3ff;
+      --sand: #fff8e0;
+      --sun: #ffd02f;
+      --coral: #4262ff;
+      --sage: #c3faf5;
+      --paper: #ffffff;
+      --surface: #f7f8fa;
+      --line: #e0e2e8;
+      --white: #fff;
+      --blue-pressed: #2a41b6;
+      --line-soft: #eef0f3;
+      --line-strong: #c7cad5;
+      --rose: #fde0f0;
+      --orange: #ffe6cd;
+      --shadow: 0 12px 32px -4px rgba(5, 0, 56, .08);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "Roobert PRO", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+    a { color: var(--ocean); text-underline-offset: 3px; }
+    button { font: inherit; }
+    .wrap { width: min(1180px, calc(100% - 48px)); margin: 0 auto; }
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 88px 0 64px;
+      color: var(--ink);
+      background: var(--white);
+    }
+    .hero .wrap { position: relative; z-index: 1; }
+    .hero::before, .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .hero::before { width: 430px; height: 430px; right: -140px; top: -220px; background: var(--ocean); }
+    .hero::after { width: 270px; height: 270px; right: 130px; bottom: -180px; background: var(--coral); }
+    h1 { max-width: 1100px; margin: 16px 0 12px; color: var(--deep); font-size: clamp(48px, 6.25vw, 80px); font-weight: 500; line-height: 1.05; letter-spacing: -2px; }
+    .hero-lead { max-width: 820px; margin: 0; color: #555a6a; font-size: clamp(20px, 2vw, 28px); font-weight: 400; }
+    .flight-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 48px; }
+    .flight { min-height: 154px; padding: 28px; border: 1px solid rgba(255,255,255,.16); border-radius: 20px; color: white; background: var(--ocean); }
+    .flight span { display: block; color: white; font-size: 13px; font-weight: 600; letter-spacing: .04em; }
+    .flight strong { display: block; margin: 8px 0 12px; color: white; font-size: 28px; font-weight: 500; }
+    .flight small { color: rgba(255,255,255,.76); font-size: 14px; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 14px; }
+    .stat { padding: 20px; border: 1px solid var(--line-soft); border-radius: 16px; color: var(--deep); background: var(--white); }
+    .stat b { display: block; color: var(--deep); font-size: 22px; font-weight: 500; }
+    .stat span { color: #6b6f7e; font-size: 13px; }
+    .route-map-card { margin-top: 18px; padding: 26px; border: 1px solid var(--line-soft); border-radius: 24px; color: var(--ink); background: var(--white); box-shadow: var(--shadow); }
+    .route-map-top { display: flex; justify-content: space-between; gap: 24px; align-items: flex-end; margin-bottom: 18px; }
+    .route-map-top h2 { margin: 0; font-size: 30px; }
+    .route-tabs { display: flex; gap: 7px; overflow-x: auto; padding: 1px 1px 11px; scrollbar-width: thin; scrollbar-color: #a8c9cb transparent; }
+    .route-tab { flex: 0 0 auto; min-width: 62px; padding: 9px 13px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); background: var(--white); cursor: pointer; font-size: 12px; font-weight: 800; }
+    .route-tab:hover { border-color: var(--ocean); background: var(--ocean-soft); }
+    .route-tab[aria-selected="true"] { color: white; border-color: var(--ocean); background: var(--ocean); }
+    .route-map-layout { display: grid; grid-template-columns: minmax(0, 560px) minmax(250px, 1fr); justify-content: center; gap: 16px; }
+    .route-map-visual { position: relative; overflow: hidden; width: 100%; aspect-ratio: 1; min-height: 0; border: 1px solid var(--line); border-radius: 19px; background: var(--surface); touch-action: none; cursor: grab; }
+    .route-map-visual.dragging { cursor: grabbing; }
+    #routeMapSvg { display: block; width: 100%; height: 100%; min-height: 0; user-select: none; }
+    .map-sea-label { fill: #8e91a0; font-size: 12px; font-weight: 800; letter-spacing: .14em; }
+    .map-region-label { fill: #8e91a0; font-size: 11px; font-weight: 800; letter-spacing: .1em; }
+    .map-coast { fill: none; stroke: var(--line-strong); stroke-width: 3; vector-effect: non-scaling-stroke; }
+    .map-route-line { stroke: var(--ocean); stroke-width: 3.2; stroke-linecap: round; opacity: .9; vector-effect: non-scaling-stroke; }
+    .map-stop { cursor: pointer; outline: none; }
+    .map-stop .marker-halo { fill: var(--ocean); stroke: none; }
+    .map-stop .marker-order { fill: white; font-size: 8px; font-weight: 900; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+    .map-stop:hover .marker-halo, .map-stop:focus .marker-halo, .map-stop.active .marker-halo { fill: var(--blue-pressed); transform: scale(1.1); transform-box: fill-box; transform-origin: center; }
+    .map-label { fill: var(--deep); stroke: white; stroke-width: 4px; paint-order: stroke; font-size: 11px; font-weight: 900; pointer-events: none; }
+    .map-date-label { fill: var(--coral); stroke: white; stroke-width: 3px; paint-order: stroke; font-size: 9px; font-weight: 900; pointer-events: none; }
+    .map-time rect { fill: white; stroke: #dbd8cf; stroke-width: 1; }
+    .map-time text { fill: #5c5140; font-size: 8px; font-weight: 900; text-anchor: middle; dominant-baseline: central; }
+    .map-tooltip { position: absolute; z-index: 5; width: min(240px, calc(100% - 24px)); padding: 12px 14px; border-radius: 13px; color: white; background: rgba(5,0,56,.96); box-shadow: 0 12px 30px rgba(5,0,56,.22); opacity: 0; transform: translate(-50%, -108%); pointer-events: none; transition: opacity .15s ease; }
+    .map-tooltip.show { opacity: 1; }
+    .map-tooltip b { display: block; color: var(--sun); font-size: 13px; }
+    .map-tooltip span { display: block; margin-top: 3px; color: #e0eeee; font-size: 11px; line-height: 1.45; }
+    .map-side { display: grid; align-content: start; gap: 12px; padding: 20px; border-radius: 19px; background: var(--surface); }
+    .map-mode { color: var(--coral); font-size: 10px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+    .map-side h3 { margin: 2px 0 0; color: var(--deep); font-size: 21px; line-height: 1.25; }
+    .map-summary { display: none; }
+    .map-legs { display: grid; gap: 8px; margin: 4px 0 0; padding: 0; list-style: none; }
+    .map-legs li { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+    .map-legs li:last-child { border-bottom: 0; }
+    .map-leg-route { color: var(--ink); font-size: 11px; line-height: 1.35; }
+    .map-leg-time { padding: 4px 7px; border-radius: 999px; color: var(--deep); background: white; font-size: 10px; font-weight: 900; white-space: nowrap; }
+    .map-place-preview { min-height: 0; margin-top: 4px; padding: 14px 0 0; border-top: 1px solid var(--line); border-radius: 0; color: var(--deep); background: transparent; }
+    .map-place-preview small { display: block; color: var(--coral); font-size: 10px; font-weight: 900; letter-spacing: .12em; }
+    .map-place-preview b { display: block; margin: 2px 0 3px; color: var(--deep); font-size: 16px; }
+    .map-place-preview span { display: block; color: var(--ink-soft); font-size: 11px; line-height: 1.45; }
+    .map-preview-photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 10px; }
+    .map-preview-photos button { overflow: hidden; aspect-ratio: 1.35; padding: 0; border: 0; border-radius: 8px; background: #ddd; cursor: pointer; }
+    .map-preview-photos img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .2s ease; }
+    .map-preview-photos button:hover img { transform: scale(1.04); }
+    .map-scale-note { display: none; }
+    .toolbar { position: sticky; top: 0; z-index: 20; border-bottom: 1px solid var(--line); background: rgba(255,253,248,.95); backdrop-filter: blur(14px); }
+    .toolbar-inner { display: flex; align-items: center; gap: 8px; min-height: 60px; overflow-x: auto; scrollbar-width: none; }
+    .toolbar-inner::-webkit-scrollbar { display: none; }
+    .toolbar a, .toolbar button { flex: 0 0 auto; padding: 9px 14px; border: 0; border-radius: 999px; color: var(--ink); background: transparent; text-decoration: none; cursor: pointer; font-size: 13px; font-weight: 700; }
+    .toolbar a:hover { background: var(--ocean-soft); }
+    .toolbar .print { margin-left: auto; color: white; background: var(--deep); }
+    section { padding: 82px 0 0; scroll-margin-top: 74px; }
+    h2 { margin: 0; color: var(--deep); font-size: clamp(31px, 4vw, 46px); line-height: 1.15; letter-spacing: -.03em; }
+    .section-lead { max-width: 760px; margin: 12px 0 30px; color: var(--ink-soft); }
+    .overview-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+    .panel { padding: 30px; border: 1px solid var(--line); border-radius: 24px; background: var(--white); box-shadow: 0 8px 24px rgba(7,58,67,.05); }
+    .panel h3 { margin: 0 0 16px; color: var(--deep); font-size: 22px; line-height: 1.3; }
+    .trip-overview { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+    .overview-step { min-height: 132px; padding: 18px; border-radius: 16px; background: var(--surface); }
+    .overview-step b { display: block; margin-bottom: 8px; color: var(--ocean); font-size: 14px; }
+    .overview-step span { color: var(--ink-soft); font-size: 13px; line-height: 1.5; }
+    .date-panel { margin-top: 18px; }
+    .date-panel h3 { margin-bottom: 14px; }
+    .principles { display: grid; gap: 12px; }
+    .principle { padding: 15px 16px; border-radius: 15px; background: var(--surface); }
+    .principle b { display: block; color: var(--deep); }
+    .day-nav { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-top: 0; }
+    .day-nav a { padding: 11px 8px; border: 1px solid var(--line); border-radius: 13px; color: var(--ink); background: var(--white); text-align: center; text-decoration: none; }
+    .day-nav b, .day-nav span { display: block; }
+    .day-nav b { color: var(--ocean); }
+    .day-nav span { font-size: 11px; }
+    .timeline { display: grid; gap: 26px; }
+    .day { overflow: hidden; border: 1px solid var(--line-soft); border-radius: 28px; background: var(--white); box-shadow: none; scroll-margin-top: 78px; }
+    .day-head { display: grid; grid-template-columns: 96px 1fr auto; gap: 22px; align-items: center; padding: 32px; color: var(--ink); border-bottom: 1px solid var(--line-soft); background: var(--white); }
+    .date { width: 82px; padding: 16px 10px; border-radius: 16px; color: var(--deep); background: var(--ocean-soft); text-align: center; }
+    .date b { display: block; font-size: 24px; line-height: 1.1; }
+    .date span { font-size: 11px; font-weight: 700; }
+    .day-title h3 { margin: 0 0 4px; font-size: 27px; line-height: 1.2; }
+    .day-title h3 { color: var(--deep); font-weight: 500; }
+    .day-title p { margin: 0; color: var(--ink-soft); font-size: 14px; }
+    .drive { min-width: 145px; padding-left: 20px; border-left: 1px solid var(--line); text-align: right; }
+    .drive b { display: block; color: var(--ocean); font-size: 21px; font-weight: 500; }
+    .drive span { color: #6b6f7e; font-size: 11px; }
+    .day-body { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(270px, .65fr); gap: 26px; padding: 30px; }
+    .locked { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 22px; }
+    .chip { padding: 6px 10px; border: 1px solid var(--line-soft); border-radius: 999px; color: var(--ink-soft); background: var(--surface); font-size: 12px; font-weight: 800; }
+    .agenda { position: relative; display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+    .agenda::before { content: ""; position: absolute; left: 65px; top: 11px; bottom: 12px; width: 2px; background: var(--ocean-soft); }
+    .agenda li { position: relative; display: grid; grid-template-columns: 52px 1fr; gap: 28px; padding: 0 0 20px; }
+    .agenda li:last-child { padding-bottom: 0; }
+    .agenda li::before { content: ""; position: absolute; left: 59px; top: 8px; width: 12px; height: 12px; border: 3px solid white; border-radius: 50%; background: var(--ocean); box-shadow: 0 0 0 2px var(--ocean-soft); }
+    .agenda time { color: var(--ocean); font-size: 13px; font-weight: 800; text-align: right; }
+    .agenda b { display: block; color: var(--deep); }
+    .agenda p { margin: 3px 0 0; color: var(--ink-soft); font-size: 14px; }
+    .side { display: grid; align-content: start; gap: 12px; }
+    .callout { padding: 17px 18px; border-radius: 16px; background: var(--surface); }
+    .callout.important { color: #3a2a05; background: #fff0c9; }
+    .callout.flex { background: var(--ocean-soft); }
+    .callout.food { background: #f7e4df; }
+    .callout h4 { margin: 0 0 6px; color: var(--deep); font-size: 14px; }
+    .callout p { margin: 0; font-size: 13px; }
+    .callout ul { margin: 7px 0 0; padding-left: 18px; font-size: 13px; }
+    .callout li + li { margin-top: 5px; }
+    .tag { display: inline-block; margin-bottom: 7px; color: var(--coral); font-size: 10px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+    .gallery { padding: 0 30px 30px; }
+    .gallery-inner { padding-top: 22px; border-top: 1px solid var(--line-soft); }
+    .gallery-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 12px; }
+    .gallery-head h4 { margin: 0; color: var(--deep); font-size: 16px; font-weight: 600; }
+    .gallery-head a { flex: 0 0 auto; font-size: 12px; font-weight: 700; text-decoration: none; }
+    .photo-strip { display: flex; gap: 10px; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x proximity; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; padding-bottom: 8px; cursor: grab; scrollbar-width: thin; }
+    .photo-strip.dragging { cursor: grabbing; scroll-behavior: auto; scroll-snap-type: none; }
+    .photo-button { position: relative; flex: 0 0 calc((100% - 20px) / 3); overflow: hidden; aspect-ratio: 1.48; padding: 0; border: 0; border-radius: 14px; background: var(--surface); cursor: zoom-in; scroll-snap-align: start; }
+    .photo-button img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .24s ease, filter .24s ease; }
+    .photo-button:hover img, .photo-button:focus-visible img { transform: scale(1.035); filter: saturate(1.05); }
+    .photo-button span { position: absolute; right: 9px; bottom: 8px; max-width: calc(100% - 18px); padding: 4px 8px; border-radius: 999px; color: white; background: rgba(5,0,56,.72); font-size: 10px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .lightbox { position: fixed; inset: 0; z-index: 100; display: none; place-items: center; padding: 28px; color: white; background: rgba(5,0,56,.92); }
+    .lightbox.open { display: grid; }
+    .lightbox-figure { width: min(1040px, 100%); margin: 0; text-align: center; }
+    .lightbox-figure img { display: block; width: 100%; max-height: 78vh; object-fit: contain; border-radius: 18px; background: #16133d; box-shadow: 0 24px 70px rgba(0,0,0,.38); }
+    .lightbox-caption { margin-top: 12px; color: #fff; font-size: 14px; }
+    .lightbox-count { display: block; margin-top: 3px; color: rgba(255,255,255,.64); font-size: 11px; }
+    .lightbox-close, .lightbox-nav { position: absolute; border: 0; color: white; background: rgba(255,255,255,.14); cursor: pointer; backdrop-filter: blur(8px); }
+    .lightbox-close { top: 20px; right: 20px; width: 42px; height: 42px; border-radius: 50%; font-size: 24px; line-height: 1; }
+    .lightbox-nav { top: 50%; width: 48px; height: 64px; border-radius: 16px; transform: translateY(-50%); font-size: 30px; }
+    .lightbox-prev { left: 20px; }
+    .lightbox-next { right: 20px; }
+    body.lightbox-open { overflow: hidden; }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 20px; background: white; }
+    table { width: 100%; border-collapse: collapse; min-width: 920px; }
+    th, td { padding: 15px 17px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { color: white; background: var(--deep); font-size: 12px; }
+    tr:last-child td { border-bottom: 0; }
+    td { font-size: 13px; }
+    td b { color: var(--deep); }
+    .todo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .todo { padding: 24px; border: 0; border-radius: 28px; background: var(--surface); }
+    .todo:nth-child(4n+1) { background: var(--sand); }
+    .todo:nth-child(4n+2) { background: var(--sage); }
+    .todo:nth-child(4n+3) { background: var(--rose); }
+    .todo:nth-child(4n+4) { background: var(--orange); }
+    .todo h3 { margin: 0 0 11px; color: var(--deep); font-size: 19px; }
+    .todo ul { margin: 0; padding-left: 19px; }
+    .todo li + li { margin-top: 8px; }
+    .sources { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 18px; margin: 0; padding: 0; list-style: none; }
+    .sources li { padding: 13px 15px; border: 1px solid var(--line); border-radius: 13px; background: white; font-size: 13px; }
+    .stamp { margin-top: 16px; color: var(--ink-soft); font-size: 12px; }
+    footer { margin-top: 86px; padding: 38px 0; color: #c7dcdd; background: var(--deep); text-align: center; font-size: 12px; }
+    @media (max-width: 900px) {
+      .overview-grid, .day-body { grid-template-columns: 1fr; }
+      .trip-overview { grid-template-columns: repeat(2, 1fr); }
+      .route-map-layout { grid-template-columns: 1fr; }
+      .route-map-visual, .map-side { width: min(100%, 560px); margin-inline: auto; }
+      .map-side { grid-template-columns: 1fr 1fr; max-height: 300px; overflow: auto; }
+      .map-side > :not(.map-legs):not(.map-place-preview) { grid-column: 1 / -1; }
+      .day-nav { grid-template-columns: repeat(4, 1fr); }
+      .todo-grid { grid-template-columns: 1fr; }
+      .sources { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 680px) {
+      .wrap { width: min(100% - 28px, 1180px); }
+      .hero { padding: 58px 0 42px; }
+      .flight-grid, .stats { grid-template-columns: 1fr; }
+      .route-map-card { padding: 18px; }
+      .route-map-top { display: block; }
+      .route-map-top h2 { font-size: 25px; }
+      .route-map-visual, #routeMapSvg { min-height: 0; }
+      .map-side { grid-template-columns: 1fr; }
+      .map-side { max-height: 270px; }
+      .map-side > :not(.map-legs):not(.map-place-preview) { grid-column: auto; }
+      .toolbar .print { margin-left: 0; }
+      section { padding-top: 62px; }
+      .day-head { grid-template-columns: 78px 1fr; gap: 14px; padding: 22px 18px; }
+      .date { width: 74px; }
+      .day-title h3 { font-size: 22px; }
+      .drive { grid-column: 1 / -1; min-width: 0; text-align: left; }
+      .day-body { padding: 22px 18px; }
+      .gallery { padding: 0 18px 22px; }
+      .photo-strip { gap: 9px; padding-bottom: 7px; }
+      .photo-button { flex-basis: calc((100% - 18px) / 3); min-width: 104px; }
+      .lightbox { padding: 16px; }
+      .lightbox-nav { top: auto; bottom: 18px; width: 44px; height: 44px; border-radius: 50%; transform: none; }
+      .lightbox-prev { left: calc(50% - 54px); }
+      .lightbox-next { right: calc(50% - 54px); }
+      .panel { padding: 22px; }
+      .day-nav { grid-template-columns: repeat(3, 1fr); }
+      .trip-overview { grid-template-columns: 1fr; }
+    }
+    @media print {
+      @page { size: A4; margin: 12mm; }
+      body { color: #111; background: white; font-size: 11px; }
+      .toolbar, .day-nav, footer, .gallery, .lightbox { display: none !important; }
+      .hero { padding: 12mm 0 8mm; color: white; }
+      .route-tabs, .map-tooltip { display: none !important; }
+      .route-map-card { box-shadow: none; break-inside: avoid; }
+      .route-map-layout { grid-template-columns: 1fr 230px; }
+      .route-map-visual, #routeMapSvg { min-height: 360px; }
+      .wrap { width: 100%; }
+      section { padding-top: 8mm; }
+      .day { break-inside: avoid; box-shadow: none; }
+      .day-head { padding: 14px 16px; }
+      .day-body { grid-template-columns: 1.5fr .7fr; gap: 14px; padding: 16px; }
+      .agenda li { padding-bottom: 10px; }
+      .callout { padding: 10px 12px; }
+      a { color: inherit; text-decoration: none; }
+    }
+  </style>
+</head>
+<body id="top">
+  <nav class="toolbar" aria-label="页面导航">
+    <div class="wrap toolbar-inner">
+      <a href="#route-map">路线地图</a>
+      <a href="#overview">路线总览</a>
+      <a href="#days">每日行程</a>
+      <a href="#stays">住宿</a>
+      <a href="#todo">预订清单</a>
+      <a href="#sources">核对入口</a>
+      <button class="print" type="button" onclick="window.print()">打印 / 存为 PDF</button>
+    </div>
+  </nav>
+  <header class="hero">
+    <div class="wrap">
+      <h1>西澳14天行程计划</h1>
+      <p class="hero-lead">北线奇观 + 南线度假</p>
+      <div class="flight-grid">
+        <div class="flight"><span>去程 · CX171 · 9月23日</span><strong>15:00 出发 → 22:40 抵达</strong><small>香港 HKG T1 → 珀斯 PER T1｜均为当地时间</small></div>
+        <div class="flight"><span>返程 · CX184 · 10月6日</span><strong>08:20 出发 → 16:20 抵达</strong><small>珀斯 PER T1 → 香港 HKG T1｜均为当地时间</small></div>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>13 晚</b><span>9/23—10/6</span></div>
+        <div class="stat"><b>4 人</b><span>大型SUV + 3件大行李</span></div>
+        <div class="stat"><b>约 2,200 km</b><span>两名以上登记驾驶员更轻松</span></div>
+        <div class="stat"><b>9 天租车</b><span>9/27—10/5</span></div>
+      </div>
+      <div class="route-map-card" id="route-map">
+        <div class="route-map-top">
+          <div><h2>路线地图</h2></div>
+        </div>
+        <div class="route-tabs" id="routeMapTabs" role="tablist" aria-label="总行程与每日路线"></div>
+        <div class="route-map-layout">
+          <div class="route-map-visual" id="routeMapVisual">
+            <svg id="routeMapSvg" viewBox="300 10 330 580" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="routeMapTitle routeMapSummary"></svg>
+            <div class="map-tooltip" id="routeMapTooltip" role="status"></div>
+          </div>
+          <aside class="map-side">
+            <div class="map-mode" id="routeMapMode">总行程 · 显示日期</div>
+            <h3 id="routeMapTitle">Perth → 北线 → 南线</h3>
+            <p class="map-summary" id="routeMapSummary">以 Bassendean 为前四晚基地，北上 Kalbarri 后分两天南返，再进入 Busselton 与 Margaret River。</p>
+            <ol class="map-legs" id="routeMapLegs" aria-label="路段时间"></ol>
+            <div class="map-place-preview" id="routeMapPreview"><small>地点速览</small><b>把鼠标移到地图地点</b><span>手机上可直接点击圆点查看介绍。</span></div>
+            <p class="map-scale-note">地图按相对地理位置绘制，用于理解顺序与距离感；驾驶以当天实时导航为准。</p>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="overview">
+      <div class="wrap">
+        <h2>路线总览</h2>
+        <p class="section-lead">以 Bassendean 为城市段基地，先体验 Perth、Rottnest 与 Swan Valley，再沿西海岸北上 Kalbarri，最后进入 Busselton 与 Margaret River 慢下来度假。</p>
+        <div class="overview-grid">
+          <div class="panel">
+            <h3>全程概览</h3>
+            <div class="trip-overview">
+              <div class="overview-step"><b>01 · 城市段</b><span>Bassendean 4晚<br>Perth、Rottnest、Caversham</span></div>
+              <div class="overview-step"><b>02 · 北线</b><span>Lancelin → Cervantes → Hutt Lagoon → Kalbarri</span></div>
+              <div class="overview-step"><b>03 · 南返</b><span>Jurien Bay → Busselton<br>两天拆开长途驾驶</span></div>
+              <div class="overview-step"><b>04 · 南线</b><span>Margaret River 3晚<br>酒庄、美食、洞穴与森林</span></div>
+              <div class="overview-step"><b>05 · 返程</b><span>Perth Airport 1晚<br>前一天下午还车</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="panel date-panel">
+          <h3>每日行程速查</h3>
+          <div class="day-nav" aria-label="跳转到每日行程">
+            <a href="#d0"><b>9/23</b><span>抵达</span></a><a href="#d1"><b>9/24</b><span>Perth</span></a><a href="#d2"><b>9/25</b><span>Rottnest</span></a><a href="#d3"><b>9/26</b><span>Caversham</span></a><a href="#d4"><b>9/27</b><span>Lancelin</span></a><a href="#d5"><b>9/28</b><span>粉湖</span></a><a href="#d6"><b>9/29</b><span>Kalbarri</span></a>
+            <a href="#d7"><b>9/30</b><span>南返 1</span></a><a href="#d8"><b>10/1</b><span>南返 2</span></a><a href="#d9"><b>10/2</b><span>Busselton</span></a><a href="#d10"><b>10/3</b><span>酒庄美食</span></a><a href="#d11"><b>10/4</b><span>洞穴森林</span></a><a href="#d12"><b>10/5</b><span>还车</span></a><a href="#d13"><b>10/6</b><span>离开</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="days">
+      <div class="wrap">
+        <h2>每日行程</h2>
+        <p class="section-lead">团友们，我们准备出发啦～</p>
+        <div class="timeline">
+
+          <article class="day" id="d0">
+            <div class="day-head"><div class="date"><b>9/23</b><span>周三 · D0</span></div><div class="day-title"><h3>抵达珀斯 · 深夜入住 Bassendean</h3><p>香港 → Perth Airport T1 → 88 Reid Street 2, Bassendean</p></div><div class="drive"><b>不自驾</b><span>接机约 15–20 分钟</span></div></div>
+            <div class="day-body">
+              <div>
+                <div class="locked"><span class="chip">Bassendean 连住 4 晚</span><span class="chip">住宿已预订</span><span class="chip">7座 / Uber XL</span></div>
+                <ol class="agenda">
+                  <li><time>22:40</time><div><b>航班抵达 PER T1</b><p>通关、取行李与电话卡不设硬截止时间。</p></div></li>
+                  <li><time>23:50+</time><div><b>预约车前往 Bassendean</b><p>目的地：88 Reid Street 2, Bassendean WA 6054。四人和大行李优先 7 座车。</p></div></li>
+                  <li><time>00:10+</time><div><b>办理入住</b><p>确认门牌、钥匙盒与停车说明，只完成洗漱、饮水和第二天闹钟。</p></div></li>
+                </ol>
+              </div>
+              <aside class="side"><div class="callout important"><span class="tag">已订住宿</span><h4>88 Reid Street 2, Bassendean</h4><p>入住 9/23、离店 9/27，共 4 晚。出发前保存门禁、钥匙盒、停车位和紧急联系电话的离线截图。</p></div></aside>
+            </div>
+          </article>
+
+          <article class="day" id="d1">
+            <div class="day-head"><div class="date"><b>9/24</b><span>周四 · D1</span></div><div class="day-title"><h3>Perth 城市、蓝色船屋与可选日落</h3><p>Bassendean → Kings Park → Crawley / UWA → Elizabeth Quay → Cottesloe → Fremantle → Bassendean</p></div><div class="drive"><b>不自驾</b><span>火车 + 短程网约车</span></div></div>
+            <div class="day-body">
+              <div>
+                <div class="locked"><span class="chip">Kings Park</span><span class="chip">Blue Boat House</span><span class="chip">Elizabeth Quay</span><span class="chip">Petition</span><span class="chip">Bread in Common</span></div>
+                <ol class="agenda">
+                  <li><time>08:30</time><div><b>Bassendean Station 前往 Perth</b><p>从住宿短程接驳到车站，再搭 Midland Line 进城；今天仍是长途飞行后的恢复日。</p></div></li>
+                  <li><time>09:30</time><div><b>Kings Park 野花、植物园与城市观景</b><p>预留约 2 小时，选主花园与河景，不走长线步道。</p></div></li>
+                  <li><time>11:45</time><div><b>Blue Boat House + UWA / Matilda Bay</b><p>从 Kings Park 下行后用短程网约车或巴士衔接；船屋拍照后，UWA 只做 30–45 分钟顺路参观。</p></div></li>
+                  <li><time>13:15</time><div><b>Petition Kitchen 午餐</b><p>回到 CBD 坐下吃一顿，提前订位并给下午留余地。</p></div></li>
+                  <li><time>15:00</time><div><b>Elizabeth Quay 与天鹅河步行</b><p>轻松走河岸，不安排 WA Museum；兵马俑展不纳入本次行程。</p></div></li>
+                  <li><time>16:30</time><div><b>现场决定 Cottesloe Beach</b><p>只在天气晴、风不大、全员有体力时去。优先网约车或火车后接驳，避免从车站再走 20 分钟消耗体力。</p></div></li>
+                  <li><time>19:00</time><div><b>Bread in Common 晚餐</b><p>从 Cottesloe 前往 Fremantle 用餐；晚餐后预约 7 座车返回 Bassendean，车程约 35–45 分钟。</p></div></li>
+                </ol>
+              </div>
+              <aside class="side">
+                <div class="callout flex"><span class="tag">天气分支</span><h4>Cottesloe 是加分项，不是任务</h4><p>阴雨、大风或午后体力不足就取消；Blue Boat House + UWA 已补足河岸与校园体验。</p></div>
+                <div class="callout important"><h4>交通现实</h4><p>这组点位不是全程“市区步行可达”。为避免绕路，Kings Park—Crawley—CBD 之间应混用步行和短程车。</p></div>
+              </aside>
+            </div>
+          </article>
+
+          <article class="day" id="d2">
+            <div class="day-head"><div class="date"><b>9/25</b><span>周五 · D2</span></div><div class="day-title"><h3>Rottnest Island 环岛一日</h3><p>Bassendean → Fremantle 码头 → Thomson Bay → West End / 灯塔 → Bassendean</p></div><div class="drive"><b>不自驾</b><span>接驳 35–45 分钟 + 渡轮</span></div></div>
+            <div class="day-body">
+              <div>
+                <div class="locked"><span class="chip">Island Explorer</span><span class="chip">Quokka</span><span class="chip">West End</span><span class="chip">灯塔海岸</span></div>
+                <ol class="agenda">
+                  <li><time>06:40</time><div><b>从 Bassendean 出发</b><p>预约 7 座车直达 Fremantle 渡轮码头，预留早高峰与至少 30 分钟登船时间。</p></div></li>
+                  <li><time>09:00</time><div><b>Thomson Bay + Quokka 初见</b><p>不触摸、不喂食，用低机位拍照并与动物保持距离。</p></div></li>
+                  <li><time>10:00</time><div><b>Island Explorer 环岛巴士</b><p>先覆盖 West End 与灯塔自然景观，再按风况选择 1–2 个海湾下车。</p></div></li>
+                  <li><time>12:30</time><div><b>轻便午餐</b><p>面包店外带或简单坐食，不把时间耗在排长队。</p></div></li>
+                  <li><time>14:00</time><div><b>海湾与第二轮 Quokka 摄影</b><p>春季水温偏低，不把浮潜设为必须。</p></div></li>
+                  <li><time>17:00+</time><div><b>渡轮返回 Fremantle</b><p>上岸后预约车返回 Bassendean；晚餐从简，早点休息。</p></div></li>
+                </ol>
+              </div>
+              <aside class="side"><div class="callout important"><span class="tag">提前预订</span><h4>渡轮 + Island Explorer</h4><p>一起锁定，避免岛上交通售罄。保留电子票离线副本。</p></div></aside>
+            </div>
+          </article>
+
+          <article class="day" id="d3">
+            <div class="day-head"><div class="date"><b>9/26</b><span>周六 · D3</span></div><div class="day-title"><h3>Caversham · Swan Valley · Fremantle</h3><p>Bassendean → Caversham Wildlife Park → Swan Valley → Fremantle Markets → Bassendean</p></div><div class="drive"><b>网约车</b><span>分段预约 7 座车</span></div></div>
+            <div class="day-body">
+              <div>
+                <div class="locked"><span class="chip">Caversham</span><span class="chip">Swan Valley 午餐</span><span class="chip">Fremantle Markets</span><span class="chip">当天不取车</span></div>
+                <ol class="agenda">
+                  <li><time>08:20</time><div><b>从 Bassendean 预约车直达动物园</b><p>车程约 10–15 分钟；行李留在住宿，今天不办理租车。</p></div></li>
+                  <li><time>08:40</time><div><b>抵达 Caversham 门口排队</b><p>目标是 9:00 开门后第一时间进园；学校假期首日要留停车与排队缓冲。</p></div></li>
+                  <li><time>09:00</time><div><b>考拉体验 + 袋鼠</b><p>免费近距离合影有 9:00 场；若要“抱考拉”，进门先到纪念品店买 12:00 限量票。</p></div></li>
+                  <li><time>10:00</time><div><b>Farm Show / 园内动物</b><p>根据是否买到抱考拉票决定 11:15 离园，或留到 12:00 后再走。</p></div></li>
+                  <li><time>12:15–13:30</time><div><b>预约车前往 Swan Valley 午餐</b><p>按离园时间订弹性桌位，午餐结束后再预约返程车。</p></div></li>
+                  <li><time>15:00</time><div><b>前往 Fremantle Markets</b><p>从 Swan Valley 预约车约 35–45 分钟；逛小吃与手作后返回 Bassendean，整理北上行李、饮用水和早餐。</p></div></li>
+                </ol>
+              </div>
+              <aside class="side">
+                <div class="callout important"><span class="tag">关键澄清</span><h4>合影与“抱考拉”不是一件事</h4><p>普通 Meet a Koala 合影包含在门票中；抱考拉另付费、不能预订、9:00 先到先得，官方提示旺季可能 15 分钟内售罄。</p></div>
+                <div class="callout flex"><h4>次日取车安排</h4><p>9/26 全日不取车；9/27 早晨由主驾驶去 Perth Airport 取车，再回 Bassendean 接人和行李。</p></div>
+              </aside>
+            </div>
+          </article>
+
+          <article class="day" id="d4">
+            <div class="day-head"><div class="date"><b>9/27</b><span>周日 · D4</span></div><div class="day-title"><h3>Lancelin 白沙丘与 Pinnacles 日落</h3><p>Bassendean → Perth Airport 取车 → Lancelin → Cervantes → Pinnacles</p></div><div class="drive"><b>约 3.5 小时</b><span>不含取车、活动与停靠</span></div></div>
+            <div class="day-body">
+              <div>
+                <div class="locked"><span class="chip">07:00 Perth Airport 取车</span><span class="chip">滑沙 + 摄影</span><span class="chip">ATV 看状态</span><span class="chip">Lobster Shack 午餐</span><span class="chip">Pinnacles 日落</span></div>
+                <ol class="agenda">
+                  <li><time>06:30</time><div><b>主驾驶前往 Perth Airport</b><p>预约车约 15–20 分钟，办理 07:00 取车；其余人留在住宿完成退房和看管行李。</p></div></li>
+                  <li><time>07:30</time><div><b>回 Bassendean 装行李</b><p>实测四件大行李空间，拍摄车况、油表和里程；最迟 08:00 北上。</p></div></li>
+                  <li><time>09:45</time><div><b>Lancelin 沙丘散步、摄影与滑沙</b><p>先完成必选项目，再看体力与风况决定是否加 ATV / 当地四驱体验。</p></div></li>
+                  <li><time>12:00</time><div><b>离开 Lancelin</b><p>普通租赁 SUV 不驶入沙地；沙丘活动结束后清理鞋袜与相机。</p></div></li>
+                  <li><time>13:15</time><div><b>Lobster Shack 龙虾午餐</b><p>提前预订用餐时段，用餐后根据时间决定先入住还是直接前往 Pinnacles。</p></div></li>
+                  <li><time>15:00</time><div><b>入住或直接前往 Pinnacles</b><p>能否先入住取决于午餐结束时间与酒店手续；不要为了 check-in 错过日落。</p></div></li>
+                  <li><time>16:30</time><div><b>Pinnacles 自驾环线 + 短步行</b><p>预留约 1.5–2 小时看光线变化；日落后只短距离返回 Cervantes。</p></div></li>
+                </ol>
+              </div>
+              <aside class="side">
+                <div class="callout important"><h4>取车地点与时间</h4><p>选择 Avis Perth Airport，周日 07:00 取车，10/5 约 16:00 原点还车。机场店每日 06:30 开门，离 Bassendean 更近，也省去 Fremantle 绕行与异地还车安排。</p></div>
+                <div class="callout flex"><h4>住宿</h4><p>Cervantes 两卧室 Holiday Park Villa。功能优先：停车、厨房、早退房。</p></div>
+              </aside>
+            </div>
+          </article>
+
+          <article class="day" id="d5">
+            <div class="day-head"><div class="date"><b>9/28</b><span>周一 · D5</span></div><div class="day-title"><h3>Geraldton · Hutt Lagoon · Kalbarri 海岸</h3><p>Cervantes → Jurien Bay → Geraldton → Port Gregory → Pink Lake Lookout → Kalbarri</p></div><div class="drive"><b>约 5 小时</b><span>约 440 km + 停靠｜WA 公共假日</span></div></div>
+            <div class="day-body">
+              <div>
+                <div class="locked"><span class="chip">Port Gregory Road 观景点</span><span class="chip">Red Bluff 日落</span><span class="chip">离线地图</span></div>
+                <ol class="agenda">
+                  <li><time>07:30</time><div><b>Cervantes 出发</b><p>导航分段设定：Cervantes → Jurien Bay → Geraldton → Port Gregory → Pink Lake Lookout → Kalbarri。</p></div></li>
+                  <li><time>10:30</time><div><b>Geraldton 休息与早午餐</b><p>公共假日可能缩短营业或加收附加费，提前核对并加满油。</p></div></li>
+                  <li><time>13:00</time><div><b>前往 Port Gregory</b><p>不要只输入“Pink Lake”后盲从小路；按预设导航点行驶。</p></div></li>
+                  <li><time>14:00</time><div><b>Hutt Lagoon 专用观景停车点</b><p>使用 Port Gregory Road 上的 Pink Lake Lookout。安全驶离主路再停车，不进入无停车位的灌木丛。</p></div></li>
+                  <li><time>16:00</time><div><b>抵达 Kalbarri 入住</b><p>补给、休息；若时间和天气都允许再去海岸。</p></div></li>
+                  <li><time>17:15</time><div><b>Red Bluff 日落</b><p>只在白天驾驶目标已经完成时前往，天色差就取消。</p></div></li>
+                </ol>
+              </div>
+              <aside class="side">
+                <div class="callout important"><span class="tag">给司机</span><h4>出发前下载离线地图</h4><p>把上述 6 个导航点逐一收藏，并截图最后 100 km 路线。粉湖官方推荐使用 Port Gregory Road 的专用、未铺装观景停车区。</p></div>
+                <div class="callout flex"><h4>粉色不保证</h4><p>颜色受阳光、云量与水体影响；把它当顺路景观，不为等颜色延误到黄昏。</p></div>
+              </aside>
+            </div>
+          </article>
+
+          <article class="day" id="d6">
+            <div class="day-head"><div class="date"><b>9/29</b><span>周二 · D6</span></div><div class="day-title"><h3>Kalbarri 国家公园与海岸线</h3><p>Skywalk → Nature's Window → Z Bend → Natural Bridge / Island Rock → Pot Alley</p></div><div class="drive"><b>约 2.5 小时</b><span>园内与海岸道路合计</span></div></div>
+            <div class="day-body">
+              <div>
+                <div class="locked"><span class="chip">Skywalk</span><span class="chip">Nature's Window</span><span class="chip">Z Bend Lookout</span><span class="chip">Natural Bridge</span><span class="chip">Island Rock</span><span class="chip">Pot Alley</span></div>
+                <ol class="agenda">
+                  <li><time>07:30</time><div><b>尽早进入国家公园</b><p>先做内陆峡谷，避开午后热度并增加停车选择。</p></div></li>
+                  <li><time>08:15</time><div><b>Kalbarri Skywalk</b><p>从轻松观景开始，确认当天风况和体力。</p></div></li>
+                  <li><time>09:30</time><div><b>Nature's Window</b><p>走官方步道，不越过护栏；备足水。</p></div></li>
+                  <li><time>11:15</time><div><b>Z Bend Lookout</b><p>只到观景台，不安排高强度峡谷徒步。</p></div></li>
+                  <li><time>13:30</time><div><b>回镇午餐与午休</b><p>给下午海岸线留体力。</p></div></li>
+                  <li><time>15:30</time><div><b>Natural Bridge、Island Rock、Pot Alley</b><p>按风况与光线灵活排序；观景点之间短距离移动。</p></div></li>
+                </ol>
+              </div>
+              <aside class="side"><div class="callout important"><h4>公园状态</h4><p>前一晚和出发清晨查看 DBCA 道路、封闭、火险与天气；现场指示优先于本页。</p></div></aside>
+            </div>
+          </article>
+
+          <article class="day" id="d7">
+            <div class="day-head"><div class="date"><b>9/30</b><span>周三 · D7</span></div><div class="day-title"><h3>南返前半程 · 吃好、轮换、睡好</h3><p>Kalbarri → Northampton → Geraldton → Jurien Bay</p></div><div class="drive"><b>约 5 小时</b><span>约 420 km｜纯转场日</span></div></div>
+            <div class="day-body">
+              <div>
+                <div class="locked"><span class="chip">慢早餐</span><span class="chip">Geraldton 正式午餐</span><span class="chip">Jurien 舒服住宿</span><span class="chip">不加景点</span></div>
+                <ol class="agenda">
+                  <li><time>08:00</time><div><b>Kalbarri 慢早餐</b><p>退房前把水、零食、音乐和司机顺序准备好。</p></div></li>
+                  <li><time>09:30</time><div><b>开始南下</b><p>在 Northampton 做第一次短休息，换司机或买咖啡。</p></div></li>
+                  <li><time>12:15</time><div><b>Geraldton 坐下吃午餐</b><p>建议预订 Salt Dish 一类的正式午餐，把这天从“赶路”变成一顿舒服的中场休息。</p></div></li>
+                  <li><time>13:45</time><div><b>继续前往 Jurien Bay</b><p>每 1.5–2 小时停车活动；不赶超、不追日落。</p></div></li>
+                  <li><time>17:00</time><div><b>入住 Jurien Bay</b><p>优先两卧室公寓或较新的 serviced apartment，床品和隔音比“景观房”更重要。</p></div></li>
+                  <li><time>17:45</time><div><b>Turquoise Way 海边短走 + 晚餐</b><p>只走 20–30 分钟舒展身体；晚餐可预订 Sandpiper Tavern，不靠临时找店。</p></div></li>
+                </ol>
+              </div>
+              <aside class="side">
+                <div class="callout food"><span class="tag">让大家开心一点</span><h4>今天值得“小幅升级”</h4><ul><li>把炸鱼薯条外带改成 Geraldton 正常午餐。</li><li>把最基础 cabin 改成两卧室公寓，换来更好的睡眠。</li><li>每人准备一段歌单或播客，司机每 90–120 分钟轮换。</li></ul></div>
+                <div class="callout flex"><h4>不安排景点</h4><p>到 Jurien 后如果人人都累，海边散步也可取消，直接吃饭睡觉。</p></div>
+              </aside>
+            </div>
+          </article>
+
+          <article class="day" id="d8">
+            <div class="day-head"><div class="date"><b>10/1</b><span>周四 · D8</span></div><div class="day-title"><h3>南返后半程 · Busselton 吃饭与分头休息</h3><p>Jurien Bay → Perth 外环 → Bunbury / Busselton</p></div><div class="drive"><b>约 5 小时</b><span>约 430 km｜纯转场日</span></div></div>
+            <div class="day-body">
+              <div>
+                <div class="locked"><span class="chip">直达 Busselton</span><span class="chip">女生镇上购物</span><span class="chip">男生休息</span><span class="chip">INARA 晚餐</span><span class="chip">Jetty 日落</span></div>
+                <ol class="agenda">
+                  <li><time>08:00</time><div><b>早餐后离开 Jurien Bay</b><p>绕 Perth 外环，避开进 CBD；第一段由精神最好的人驾驶。</p></div></li>
+                  <li><time>10:00</time><div><b>中途咖啡与换司机</b><p>休息 15–20 分钟，不增加完整景点。</p></div></li>
+                  <li><time>12:30</time><div><b>Bunbury / 沿线午餐</b><p>以停车方便、出餐稳定为准，避免车上只吃零食。</p></div></li>
+                  <li><time>15:30</time><div><b>Busselton 入住</b><p>男生回房休息；女生可去 Busselton Central、Prince Street 或 Power Centre 逛店。</p></div></li>
+                  <li><time>17:30</time><div><b>Busselton Jetty 日落散步</b><p>只走舒适距离；完整栈桥体验留到次日上午。</p></div></li>
+                  <li><time>19:00</time><div><b>INARA 四人晚餐</b><p>共享式 Levantine 菜适合四个人，周四晚营业，建议提前订桌；想更随意可改 Shelter Brewing。</p></div></li>
+                </ol>
+              </div>
+              <aside class="side">
+                <div class="callout food"><span class="tag">这天的重点</span><h4>舒服抵达 + 好好吃饭</h4><p>购物点和餐厅都在 Busselton 镇内，分头活动 1.5–2 小时后会合，不让每个人被迫保持同一节奏。</p></div>
+                <div class="callout flex"><h4>住宿选择</h4><p>选靠近 foreshore / 市中心的两卧室公寓，方便一组休息、一组步行购物；位置比度假设施重要。</p></div>
+              </aside>
+            </div>
+          </article>
+
+          <article class="day" id="d9">
+            <div class="day-head"><div class="date"><b>10/2</b><span>周五 · D9</span></div><div class="day-title"><h3>Busselton Jetty 与北部海角</h3><p>Busselton → Cape Naturaliste / Yallingup → Tanah Marah</p></div><div class="drive"><b>约 2–3 小时</b><span>取决于沿海停靠</span></div></div>
+            <div class="day-body">
+              <div>
+                <div class="locked"><span class="chip">小火车</span><span class="chip">Underwater Observatory</span><span class="chip">Tanah Marah 3晚</span><span class="chip">海角点位可删</span></div>
+                <ol class="agenda">
+                  <li><time>09:30–11:00</time><div><b>按体力安排起床</b><p>建议预订 10:00 或 11:00 的完整海底观察馆行程，既不必早起，也不会压缩下午。</p></div></li>
+                  <li><time>固定场次</time><div><b>小火车 + Underwater Observatory</b><p>完整体验约 1 小时 45 分钟。这里是乘火车到栈桥末端并下到观察馆，不是下海潜水。</p></div></li>
+                  <li><time>12:30</time><div><b>Busselton 午餐后出发</b><p>先吃再上路，避免沿海一路找店。</p></div></li>
+                  <li><time>14:00</time><div><b>北部海角顺路打卡</b><p>Sugarloaf Rock、Canal Rocks、Yallingup 只选 1–2 处；若上午晚起或天气差，全部跳过。</p></div></li>
+                  <li><time>16:30</time><div><b>Tanah Marah 入住</b><p>确认双卧双卫、厨房、壁炉和晚间到达指引，正式进入度假节奏。</p></div></li>
+                </ol>
+              </div>
+              <aside class="side">
+                <div class="callout important"><span class="tag">预约逻辑</span><h4>不能完全当天再决定</h4><p>观察馆只接受固定场次进入。更稳妥的做法是先订较晚场次，前一晚根据身体状态确认；若临时放弃，按票务条款处理。</p></div>
+                <div class="callout flex"><h4>海角景点都是备选</h4><p>不为了“顺路”强行下车。今天完成 Jetty + 舒服入住就已经合格。</p></div>
+              </aside>
+            </div>
+          </article>
+
+          <article class="day" id="d10">
+            <div class="day-head"><div class="date"><b>10/3</b><span>周六 · D10</span></div><div class="day-title"><h3>Margaret River Farmers Market 与 Voyager</h3><p>市场吃喝采购 → 小屋放货 → Voyager Estate 长午餐 → 壁炉轻晚餐</p></div><div class="drive"><b>约 1–1.5 小时</b><span>固定全天零饮酒司机</span></div></div>
+            <div class="day-body">
+              <div>
+                <div class="locked"><span class="chip">Farmers Market</span><span class="chip">Voyager Estate</span><span class="chip">零饮酒司机</span><span class="chip">小屋晚餐</span></div>
+                <ol class="agenda">
+                  <li><time>07:45</time><div><b>Margaret River Farmers Market</b><p>市场目前每周六 07:30–11:30。重点吃早餐、买奶酪面包蔬果与小屋晚餐材料。</p></div></li>
+                  <li><time>10:15</time><div><b>回小屋放冷藏食材</b><p>不要把奶酪、海鲜或肉类留在车内直到下午。</p></div></li>
+                  <li><time>11:30</time><div><b>前往 Voyager Estate</b><p>预留花园与建筑拍照时间。</p></div></li>
+                  <li><time>12:00</time><div><b>Voyager Estate 五道式午餐</b><p>餐厅周三至周日中午营业，必须预订；零饮酒司机全程不饮酒。</p></div></li>
+                  <li><time>16:00</time><div><b>返回小屋休息</b><p>午餐是今天主角，不再追加第二家酒庄。</p></div></li>
+                  <li><time>19:00</time><div><b>壁炉旁轻量 BBQ / 市场食材</b><p>长午餐后不必再做丰盛晚餐，以分享小食和热饮为主。</p></div></li>
+                </ol>
+              </div>
+              <aside class="side">
+                <div class="callout food"><span class="tag">当天重点</span><h4>市场要留足 2 小时</h4><p>不要把 Farmers Market 当成 20 分钟早餐点；这里是今天最想体验的内容之一。</p></div>
+                <div class="callout important"><h4>饮酒规则</h4><p>司机不参加配酒或吐酒品鉴。若四人都想饮酒，应改订接送服务，而不是临时换人。</p></div>
+              </aside>
+            </div>
+          </article>
+
+          <article class="day" id="d11">
+            <div class="day-head"><div class="date"><b>10/4</b><span>周日 · D11</span></div><div class="day-title"><h3>Lake Cave 与 Boranup · 轻松可伸缩</h3><p>Tanah Marah → Lake Cave → Boranup Karri Forest → 视状态加海岸</p></div><div class="drive"><b>1.5–3 小时</b><span>按当天分支决定</span></div></div>
+            <div class="day-body">
+              <div>
+                <div class="locked"><span class="chip">Lake Cave</span><span class="chip">Boranup Karri Forest</span><span class="chip">其余当天再计划</span></div>
+                <ol class="agenda">
+                  <li><time>09:00</time><div><b>慢早餐后出发</b><p>连续住 3 晚的价值就是不必每天早起赶路。</p></div></li>
+                  <li><time>10:00</time><div><b>Lake Cave 地下湖导览</b><p>提前订较舒服的上午场；楼梯较多，穿防滑鞋。</p></div></li>
+                  <li><time>12:00</time><div><b>Boranup Karri Forest</b><p>林间短停、拍照与轻步行，不走长线。</p></div></li>
+                  <li><time>13:30</time><div><b>根据天气与体力决定下午</b><p>精力好：Hamelin Bay / Augusta 二选一；想休息：回镇午餐或直接回小屋。</p></div></li>
+                  <li><time>17:00</time><div><b>回住宿自由活动</b><p>最后一个南线夜晚留给壁炉、散步和整理行李。</p></div></li>
+                </ol>
+              </div>
+              <aside class="side">
+                <div class="callout flex"><span class="tag">三档方案</span><h4>按当天状态选</h4><ul><li><b>轻松：</b>Lake Cave + Boranup 后回小屋。</li><li><b>标准：</b>再加 Hamelin Bay。</li><li><b>完整：</b>再南下 Augusta；只在天气和体力都好时执行。</li></ul></div>
+                <div class="callout important"><h4>不要 3–4 天都临时空白</h4><p>固定 Lake Cave 与 Boranup 作为骨架，其余保持自由，这样既不赶也不会到了当地才无从决定。</p></div>
+              </aside>
+            </div>
+          </article>
+
+          <article class="day" id="d12">
+            <div class="day-head"><div class="date"><b>10/5</b><span>周一 · D12</span></div><div class="day-title"><h3>返回 Perth · 购物二选一 · 还车</h3><p>Margaret River → Perth / Swan Valley → Perth Airport</p></div><div class="drive"><b>约 3.5–4 小时</b><span>不含购物停留</span></div></div>
+            <div class="day-body">
+              <div>
+                <div class="locked"><span class="chip">机场酒店</span><span class="chip">下午还车</span><span class="chip">DFO 或 Swan Valley 二选一</span></div>
+                <ol class="agenda">
+                  <li><time>08:30</time><div><b>离开 Margaret River</b><p>加满精神再出发；沿途安排一次咖啡和一次午餐休息。</p></div></li>
+                  <li><time>13:30</time><div><b>根据进度选择最后一站</b><p>A：Perth / DFO 短购物；B：Swan Valley 只买伴手礼。两者不同时安排。</p></div></li>
+                  <li><time>16:00</time><div><b>加油、整理车内、拍照还车</b><p>检查轮毂、玻璃、油表、里程与遗留物，保留还车凭证。</p></div></li>
+                  <li><time>17:00</time><div><b>机场酒店入住</b><p>整理退税物品、行李称重、护照与登机资料。</p></div></li>
+                  <li><time>19:00</time><div><b>简单晚餐，早睡</b><p>确认次日 04:50–05:00 的酒店接驳或预约车。</p></div></li>
+                </ol>
+              </div>
+              <aside class="side">
+                <div class="callout important"><h4>购物不要贪多</h4><p>长途回城、购物、Swan Valley 和还车无法都舒服完成。当天只选最想要的一项，17:00 前完成还车。</p></div>
+                <div class="callout flex"><h4>机场酒店</h4><p>只住一晚，不为房型升级；隔音、早班交通和四人行李容量最重要。</p></div>
+              </aside>
+            </div>
+          </article>
+
+          <article class="day" id="d13">
+            <div class="day-head"><div class="date"><b>10/6</b><span>周二 · D13</span></div><div class="day-title"><h3>离开 Perth</h3><p>机场酒店 → Perth Airport T1 → 香港</p></div><div class="drive"><b>不自驾</b><span>航班 08:20</span></div></div>
+            <div class="day-body">
+              <div>
+                <div class="locked"><span class="chip">酒店接驳或 Uber XL</span><span class="chip">05:20 到 T1</span></div>
+                <ol class="agenda">
+                  <li><time>04:40</time><div><b>起床与退房</b><p>前一晚已完成行李整理，早上只核对护照、手机和钱包。</p></div></li>
+                  <li><time>04:50</time><div><b>接驳或预约车出发</b><p>住机场附近直接打 Uber XL / 7 座完全可行；不必为了免费接驳迁就不合适的班次。</p></div></li>
+                  <li><time>05:20</time><div><b>抵达 T1 国际出发</b><p>办理托运、安检与可能的退税流程。</p></div></li>
+                  <li><time>08:20</time><div><b>CX184 起飞</b><p>Perth → Hong Kong。</p></div></li>
+                </ol>
+              </div>
+              <aside class="side"><div class="callout important"><h4>最终交通确认</h4><p>若酒店首班接驳晚于 05:00，直接预约 7 座车；四个人分摊，可靠性比省小额车费更重要。</p></div></aside>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="stays">
+      <div class="wrap">
+        <h2>13晚住宿安排</h2>
+        <p class="section-lead">住宿以连续入住、停车便利和四人空间为核心；城市段已锁定 Bassendean，南线三晚集中体验森林农场小屋。</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>到店日期</th><th>离店日期</th><th>地点</th><th>晚数</th><th>建议房型</th><th>关键条件</th></tr></thead>
+            <tbody>
+              <tr><td><b>9/23</b></td><td><b>9/27</b></td><td>Bassendean</td><td>4</td><td>已预订住宿</td><td><b>88 Reid Street 2, Bassendean WA 6054</b><br>深夜入住；保存门禁、钥匙盒与停车说明</td></tr>
+              <tr><td><b>9/27</b></td><td><b>9/28</b></td><td>Cervantes</td><td>1</td><td>两卧室 Holiday Park Villa</td><td>靠近 Pinnacles、停车、可早退房；不必升级</td></tr>
+              <tr><td><b>9/28</b></td><td><b>9/30</b></td><td>Kalbarri</td><td>2</td><td>两卧双卫自炊公寓</td><td>洗衣、厨房、遮光与空调；海景仅小幅加价时考虑</td></tr>
+              <tr><td><b>9/30</b></td><td><b>10/1</b></td><td>Jurien Bay</td><td>1</td><td>两卧室公寓 / serviced apartment</td><td>从基础 cabin 小幅升级，优先床品、隔音、好停车</td></tr>
+              <tr><td><b>10/1</b></td><td><b>10/2</b></td><td>Busselton</td><td>1</td><td>Foreshore / 市中心两卧室公寓</td><td>一组休息、一组步行购物；靠近 Jetty 与晚餐</td></tr>
+              <tr><td><b>10/2</b></td><td><b>10/5</b></td><td>Tanah Marah</td><td>3</td><td>双卧双卫森林农场 chalet</td><td>全程最值得升级：两间房条件接近、壁炉、厨房、洗衣</td></tr>
+              <tr><td><b>10/5</b></td><td><b>10/6</b></td><td>Perth Airport</td><td>1</td><td>机场酒店两间房</td><td>隔音、04:50–05:00 交通、四人行李容量；不升级</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="todo">
+      <div class="wrap">
+        <h2>TODOLIST</h2>
+        <p class="section-lead">行程横跨西澳学校假期，且 9/28 是 WA 公共假日。先订稀缺资源，再处理可替代餐厅。</p>
+        <div class="todo-grid">
+          <div class="todo"><h3>本周优先</h3><ul><li>保存 Bassendean 已订住宿的门禁、停车与深夜入住说明</li><li>Cervantes、Kalbarri、Jurien、Busselton 住宿</li><li>Tanah Marah 连续 3 晚双卧双卫</li><li>9/27 07:00 Perth Airport 取车、10/5 原点还车的大型 SUV</li></ul></div>
+          <div class="todo"><h3>固定票务</h3><ul><li>Rottnest 往返渡轮 + Island Explorer</li><li>Busselton Jetty 完整海底观察馆场次</li><li>Lake Cave 上午导览</li><li>国家公园通票比较与道路状态入口保存</li></ul></div>
+          <div class="todo"><h3>餐厅与体验</h3><ul><li>Petition Kitchen、Bread in Common</li><li>9/27 Lobster Shack 普通午餐</li><li>9/30 Geraldton 午餐、Jurien 晚餐</li><li>10/1 INARA、10/3 Voyager Estate 午餐</li></ul></div>
+          <div class="todo"><h3>驾驶与装备</h3><ul><li>所有司机登记、驾照原件与合规英文翻译件</li><li>确认 SUV 能放四件大行李，不只看座位数</li><li>下载北线、公园、粉湖和南返离线地图</li><li>轮胎、玻璃、车底、动物碰撞与单车事故保险条款</li></ul></div>
+          <div class="todo"><h3>出发前 72 小时</h3><ul><li>核对天气、火险、公园与道路封闭</li><li>核对公共假日营业与附加费</li><li>保存所有票据、订单与紧急电话离线副本</li><li>根据风况确认 Cottesloe、Rottnest 与 Pinnacles</li></ul></div>
+          <div class="todo"><h3>每天晚上 10 分钟</h3><ul><li>选次日第一、第二驾驶员</li><li>检查油量、水、充电与天气</li><li>确认固定票务的报到时间</li><li>删掉一个不必要的备选点，给旅途留白</li></ul></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sources">
+      <div class="wrap">
+        <h2>官方核对与预订入口</h2>
+        <p class="section-lead">出发前请从以下官方入口重新核对场次、价格、天气、道路状态与取消政策。</p>
+        <ul class="sources">
+          <li><a href="https://cavershamwildlife.com.au/daily-experiences/meet-a-koala-and-koala-holding/" target="_blank" rel="noopener">Caversham：考拉合影与抱考拉规则</a></li>
+          <li><a href="https://www.rottnestisland.com/visit/getting-around" target="_blank" rel="noopener">Rottnest Island：岛上交通</a></li>
+          <li><a href="https://www.australiascoralcoast.com/destinations/kalbarri-surrounds/pink-lake" target="_blank" rel="noopener">Hutt Lagoon：官方观景与停车说明</a></li>
+          <li><a href="https://exploreparks.dbca.wa.gov.au/park/kalbarri-national-park" target="_blank" rel="noopener">Kalbarri National Park：开放与道路状态</a></li>
+          <li><a href="https://busseltonjetty.com.au/attractions/underwater-observatory/" target="_blank" rel="noopener">Busselton Jetty：海底观察馆与场次</a></li>
+          <li><a href="https://www.margaretriver.com/things-to-do/eat-drink/local-produce-markets/local-markets/" target="_blank" rel="noopener">Margaret River Region：周六 Farmers Market</a></li>
+          <li><a href="https://www.voyagerestate.com.au/visit-us" target="_blank" rel="noopener">Voyager Estate：餐厅营业与预订</a></li>
+          <li><a href="https://www.inarabusselton.com.au/contact" target="_blank" rel="noopener">INARA Busselton：营业日与订位</a></li>
+          <li><a href="https://www.sandpipertavern.com.au/" target="_blank" rel="noopener">Sandpiper Tavern：Jurien Bay 晚餐</a></li>
+          <li><a href="https://www.avis.com/en/locations/pac/au/wa/perth/per" target="_blank" rel="noopener">Avis Perth Airport：取还车时间与门店信息</a></li>
+          <li><a href="https://www.mainroads.wa.gov.au/travel-information/driving-in-wa/long-distance-driving/" target="_blank" rel="noopener">Main Roads WA：长途驾驶安全</a></li>
+        </ul>
+        <p class="stamp">信息核对日期：2026年7月6日。页面中的车程是含合理缓冲的规划值，不等同于出发当天实时导航。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="wrap">西澳14天行程计划 · 北线奇观 + 南线度假 · 最后更新：2026年7月6日</div></footer>
+  <script>
+    (() => {
+      const svgNS = 'http://www.w3.org/2000/svg';
+      const stops = {
+        perthairport: { name: 'Perth Airport', x: 492, y: 392, dx: 16, dy: 24, desc: '国际航班抵达与离开地点；最后一天下午在机场区域完成还车。' },
+        airporthotel: { name: '机场酒店', x: 503, y: 383, dx: 14, dy: -10, desc: '最后一晚住宿，重点是隔音和清晨 05:00 左右的送机能力。' },
+        bassendean: { name: 'Bassendean 住宿', x: 480, y: 374, dx: 16, dy: -20, desc: '9/23–9/27 连住四晚：88 Reid Street 2, Bassendean WA 6054。' },
+        fremantle: { name: 'Fremantle', x: 420, y: 410, dx: -18, dy: 28, anchor: 'end', desc: 'Bread in Common、Fremantle Markets 与 Rottnest 渡轮的衔接点。' },
+        perth: { name: 'Perth CBD', x: 446, y: 390, dx: -20, dy: -20, anchor: 'end', desc: '城市日的午餐与 Elizabeth Quay 河岸区域。' },
+        kingspark: { name: 'Kings Park', x: 435, y: 382, dx: -14, dy: -10, anchor: 'end', desc: '野花、植物园与 Perth 城市天际线的核心观景点。' },
+        bluehouse: { name: 'Blue Boat House / UWA', x: 429, y: 397, dx: -14, dy: 18, anchor: 'end', desc: '蓝色船屋、Matilda Bay 与西澳大学组合的短停区域。' },
+        elizabeth: { name: 'Elizabeth Quay', x: 444, y: 400, dx: 14, dy: 18, desc: '适合下午轻松步行的天鹅河滨水区。' },
+        cottesloe: { name: 'Cottesloe Beach', x: 414, y: 397, dx: -14, dy: -10, anchor: 'end', desc: '天气、风况和体力都合适时加入的印度洋日落备选。' },
+        rottnest: { name: 'Rottnest Island', x: 350, y: 403, dx: -14, dy: -10, anchor: 'end', desc: 'Quokka、West End、灯塔与海湾摄影的一日岛屿行程。' },
+        caversham: { name: 'Caversham', x: 463, y: 365, dx: -18, dy: -30, anchor: 'end', desc: '考拉、袋鼠与 Farm Show；抱考拉限量票 09:00 开售。' },
+        swan: { name: 'Swan Valley', x: 478, y: 357, dx: 16, dy: -28, desc: 'Caversham 之后的休闲午餐区，驾驶员保持零饮酒。' },
+        lancelin: { name: 'Lancelin', x: 392, y: 310, dx: 14, dy: -10, desc: '白沙丘散步、摄影与滑沙；ATV 视风况和体力决定。' },
+        cervantes: { name: 'Cervantes', x: 401, y: 270, dx: 14, dy: -10, desc: '龙虾午餐与一晚住宿基地，距离 Pinnacles 很近。' },
+        pinnacles: { name: 'Pinnacles', x: 392, y: 258, dx: -14, dy: -10, anchor: 'end', desc: '尖峰石阵自驾环线与日落，是 9/27 的核心收尾。' },
+        jurien: { name: 'Jurien Bay', x: 399, y: 230, dx: -14, dy: -10, anchor: 'end', desc: '北线南返的第一晚；安排舒服住宿、海边短走和正式晚餐。' },
+        geraldton: { name: 'Geraldton', x: 420, y: 150, dx: 14, dy: -10, desc: '北上和南返都会经过的主要补给、加油与正式午餐城市。' },
+        northampton: { name: 'Northampton', x: 428, y: 116, dx: -14, dy: -10, anchor: 'end', desc: 'Kalbarri 南返途中适合咖啡、伸展和更换驾驶员的短停。' },
+        hutt: { name: 'Hutt Lagoon', x: 438, y: 92, dx: 14, dy: 18, desc: '粉湖地面观景点；导航到 Port Gregory Road 专用停车区域。' },
+        kalbarri: { name: 'Kalbarri', x: 445, y: 60, dx: -14, dy: -10, anchor: 'end', desc: '连续两晚基地，连接峡谷国家公园和海岸观景点。' },
+        redbluff: { name: 'Red Bluff', x: 436, y: 76, dx: -14, dy: 20, anchor: 'end', desc: '抵达 Kalbarri 后视时间、天气决定是否前往的日落点。' },
+        skywalk: { name: 'Skywalk', x: 468, y: 47, dx: 14, dy: -10, desc: 'Kalbarri 国家公园轻松版的第一站，俯瞰 Murchison River 峡谷。' },
+        naturewindow: { name: "Nature's Window", x: 476, y: 55, dx: 14, dy: 5, desc: '标志性天然岩窗，走官方步道并避开正午热度。' },
+        zbend: { name: 'Z Bend Lookout', x: 471, y: 66, dx: 14, dy: 18, desc: '本次只到观景台，不安排高强度峡谷徒步。' },
+        naturalbridge: { name: 'Natural Bridge / Island Rock', x: 435, y: 74, dx: -14, dy: 18, anchor: 'end', desc: 'Kalbarri 海岸线的海蚀拱门与岩岛组合观景区。' },
+        potalley: { name: 'Pot Alley', x: 432, y: 82, dx: -14, dy: 30, anchor: 'end', desc: '海岸线下午段的短停点，按风况和光线决定停留时间。' },
+        perthouter: { name: 'Perth 外环', x: 476, y: 398, dx: 14, dy: -10, desc: '南返时绕开 Perth CBD，减少城市中心交通消耗。' },
+        bunbury: { name: 'Bunbury', x: 449, y: 452, dx: 14, dy: -10, desc: 'Jurien Bay 前往 Busselton 当天适合坐下吃午餐和换司机。' },
+        busselton: { name: 'Busselton', x: 427, y: 480, dx: 14, dy: 18, desc: '栈桥、镇上购物、分头休息与 INARA 晚餐的一晚基地。' },
+        capenaturaliste: { name: 'Cape Naturaliste', x: 391, y: 466, dx: -14, dy: -10, anchor: 'end', desc: '北部海角区域，Sugarloaf Rock 等点位按时间选择。' },
+        canalrocks: { name: 'Canal Rocks / Yallingup', x: 392, y: 482, dx: -14, dy: 19, anchor: 'end', desc: '顺路海岸景点；时间赶或天气差就全部跳过。' },
+        tanah: { name: 'Tanah Marah', x: 419, y: 515, dx: 14, dy: -10, desc: 'Margaret River 连住三晚的森林农场小屋基地。' },
+        market: { name: 'Farmers Market', x: 414, y: 525, dx: 14, dy: 18, desc: '周六早晨重点吃喝和采购小屋晚餐食材。' },
+        voyager: { name: 'Voyager Estate', x: 405, y: 536, dx: -14, dy: 18, anchor: 'end', desc: '五道式长午餐与花园酒庄体验，必须指定零饮酒司机。' },
+        lakecave: { name: 'Lake Cave', x: 399, y: 545, dx: -14, dy: -10, anchor: 'end', desc: '地下湖导览是 10/4 的固定骨架，建议预订舒服的上午场。' },
+        boranup: { name: 'Boranup Forest', x: 400, y: 558, dx: 14, dy: 18, desc: 'Karri 森林短停与轻步行，其余海岸项目视体力追加。' },
+        shopping: { name: 'DFO / Swan Valley', x: 481, y: 397, dx: 14, dy: 18, desc: '返程日最后一站二选一：短购物或补买伴手礼，不能两边都赶。' }
+      };
+
+      const views = [
+        {
+          key: 'all', label: '总行程', mode: '总行程 · 地点旁显示日期', title: 'Perth → 北线 → 南线',
+          summary: '以 Bassendean 为前四晚基地，北上 Kalbarri 后分两天南返，再进入 Busselton 与 Margaret River。',
+          route: ['perthairport','bassendean','perth','fremantle','rottnest','fremantle','bassendean','caversham','swan','fremantle','bassendean','perthairport','bassendean','lancelin','cervantes','geraldton','hutt','kalbarri','jurien','busselton','capenaturaliste','tanah','lakecave','perthairport'],
+          times: [null,null,null,null,null,null,null,null,null,null,null,null,'1h40','1h15','约3h','1h15','45m','约5h','约5h',null,null,null,'3h30–4h'],
+          dates: { perthairport:'9/23 · 9/27 · 10/5–6', bassendean:'9/23–27', perth:'9/24', fremantle:'9/24–26', rottnest:'9/25', caversham:'9/26', swan:'9/26', lancelin:'9/27', cervantes:'9/27', geraldton:'9/28 · 9/30', hutt:'9/28', kalbarri:'9/28–30', jurien:'9/30', busselton:'10/1–2', capenaturaliste:'10/2', tanah:'10/2–5', lakecave:'10/4' },
+          legs: [
+            ['Perth Airport','Bassendean','约15–20分钟'], ['Bassendean','Fremantle / Rottnest','约35–45分钟 + 渡轮'], ['Bassendean','Perth Airport 取车','约15–20分钟'], ['Bassendean','Lancelin','约1小时40分'], ['Lancelin','Cervantes','约1小时15分'],
+            ['Cervantes','Kalbarri（经粉湖）','约5小时'], ['Kalbarri','Jurien Bay','约5小时'], ['Jurien Bay','Busselton','约5小时'],
+            ['Busselton','Margaret River','约2–3小时'], ['Margaret River','Perth Airport','约3.5–4小时']
+          ],
+          fixedViewBox: '300 10 330 580'
+        },
+        {
+          key:'d0', label:'9/23', mode:'9/23 · 抵达夜', title:'机场 → Bassendean',
+          summary:'深夜落地后只完成安全入住，不取车、不加活动。',
+          route:['perthairport','bassendean'], times:['15–20m'],
+          legs:[['Perth Airport T1','88 Reid Street 2, Bassendean','15–20分钟']]
+        },
+        {
+          key:'d1', label:'9/24', mode:'9/24 · 城市日', title:'Perth 城市与河海景观',
+          summary:'火车进入市区，Kings Park、蓝色船屋与 Elizabeth Quay 为主；Cottesloe 视天气加入。',
+          route:['bassendean','kingspark','bluehouse','perth','elizabeth','cottesloe','fremantle','bassendean'], times:['火车25m','10–15m','10–15m','步行10m','20–30m','15–20m','35–45m'],
+          legs:[['Bassendean','Perth / Kings Park','火车约25分钟'],['Kings Park','Blue Boat House / UWA','10–15分钟'],['Elizabeth Quay','Cottesloe Beach','20–30分钟'],['Cottesloe','Fremantle','15–20分钟'],['Fremantle','Bassendean','约35–45分钟']]
+        },
+        {
+          key:'d2', label:'9/25', mode:'9/25 · 岛屿日', title:'Bassendean ↔ Fremantle ↔ Rottnest',
+          summary:'渡轮往返，岛上使用 Island Explorer 环岛巴士。',
+          route:['bassendean','fremantle','rottnest','fremantle','bassendean'], times:['预约车40m','渡轮25m','渡轮25m','预约车40m'],
+          legs:[['Bassendean','Fremantle 码头','约35–45分钟'],['Fremantle','Rottnest Island','渡轮约25分钟'],['岛上环线','West End / 灯塔 / 海湾','随上随下'],['Fremantle','Bassendean','约35–45分钟']]
+        },
+        {
+          key:'d3', label:'9/26', mode:'9/26 · 网约车一日', title:'Bassendean → Caversham → Swan Valley',
+          summary:'当天不取车，住宿离动物园很近；午后前往 Fremantle Markets 再返回 Bassendean。',
+          route:['bassendean','caversham','swan','fremantle','bassendean'], times:['预约车12m','预约车10–15m','预约车35–45m','预约车35–45m'],
+          legs:[['Bassendean','Caversham','预约车约10–15分钟'],['Caversham','Swan Valley','预约车10–15分钟'],['Swan Valley','Fremantle','预约车35–45分钟'],['Fremantle','Bassendean','预约车35–45分钟']]
+        },
+        {
+          key:'d4', label:'9/27', mode:'9/27 · 北上第一天', title:'白沙丘 → 龙虾午餐 → Pinnacles',
+          summary:'主驾驶 07:00 在 Perth Airport 取车，返回 Bassendean 接人和行李后北上。',
+          route:['bassendean','perthairport','bassendean','lancelin','cervantes','pinnacles','cervantes'], times:['18m','18m','1h40','1h15','20m','20m'],
+          legs:[['Bassendean','Perth Airport 取车','约15–20分钟'],['Perth Airport','Bassendean','约15–20分钟'],['Bassendean','Lancelin','约1小时40分'],['Lancelin','Cervantes','约1小时15分'],['Cervantes','Pinnacles','约20分钟'],['Pinnacles','Cervantes','约20分钟']]
+        },
+        {
+          key:'d5', label:'9/28', mode:'9/28 · 粉湖转场', title:'Cervantes → Hutt Lagoon → Kalbarri',
+          summary:'严格按收藏点导航，Geraldton 补给后前往粉湖专用观景停车区。',
+          route:['cervantes','jurien','geraldton','hutt','kalbarri','redbluff'], times:['25m','2h15','1h15','45m','10m'],
+          legs:[['Cervantes','Jurien Bay','约25分钟'],['Jurien Bay','Geraldton','约2小时15分'],['Geraldton','Hutt Lagoon','约1小时15分'],['Hutt Lagoon','Kalbarri','约45分钟'],['Kalbarri','Red Bluff','约10分钟']]
+        },
+        {
+          key:'d6', label:'9/29', mode:'9/29 · Kalbarri', title:'峡谷国家公园 + 海岸线',
+          summary:'清晨先内陆峡谷，午休后再走海岸观景点。',
+          route:['kalbarri','skywalk','naturewindow','zbend','kalbarri','naturalbridge','potalley','kalbarri'], times:['35m','15m','15m','40m','15m','5m','15m'],
+          legs:[['Kalbarri','Skywalk','约35分钟'],['Skywalk',"Nature's Window",'约15分钟'],["Nature's Window",'Z Bend Lookout','约15分钟'],['镇区','Natural Bridge / Island Rock','约15分钟'],['Natural Bridge','Pot Alley','约5分钟']]
+        },
+        {
+          key:'d7', label:'9/30', mode:'9/30 · 南返前半程', title:'Kalbarri → Geraldton → Jurien Bay',
+          summary:'纯转场日：Northampton 换司机、Geraldton 正式午餐、Jurien Bay 舒服入住。',
+          route:['kalbarri','northampton','geraldton','jurien'], times:['45m','40m','2h40'],
+          legs:[['Kalbarri','Northampton','约45分钟'],['Northampton','Geraldton','约40分钟'],['Geraldton','Jurien Bay','约2小时40分']]
+        },
+        {
+          key:'d8', label:'10/1', mode:'10/1 · 南返后半程', title:'Jurien Bay → Busselton',
+          summary:'绕 Perth 外环，在 Bunbury 一带午餐，下午抵达后分头休息与购物。',
+          route:['jurien','perthouter','bunbury','busselton'], times:['2h30','1h45','45m'],
+          legs:[['Jurien Bay','Perth 外环','约2小时30分'],['Perth 外环','Bunbury','约1小时45分'],['Bunbury','Busselton','约45分钟']]
+        },
+        {
+          key:'d9', label:'10/2', mode:'10/2 · 栈桥与海角', title:'Busselton → 北部海角 → Tanah Marah',
+          summary:'上午完成栈桥固定场次；海角只选 1–2 处，时间赶就直接入住。',
+          route:['busselton','capenaturaliste','canalrocks','tanah'], times:['40m','30m','35m'],
+          legs:[['Busselton','Cape Naturaliste','约40分钟'],['Cape Naturaliste','Canal Rocks / Yallingup','约30分钟'],['Yallingup','Tanah Marah','约35分钟']]
+        },
+        {
+          key:'d10', label:'10/3', mode:'10/3 · 市场与酒庄', title:'Farmers Market → Voyager Estate',
+          summary:'市场留足时间，回小屋放冷藏食材后再去 Voyager 长午餐。',
+          route:['tanah','market','tanah','voyager','tanah'], times:['15m','15m','20m','20m'],
+          legs:[['Tanah Marah','Farmers Market','约15分钟'],['市场','Tanah Marah','约15分钟'],['Tanah Marah','Voyager Estate','约20分钟'],['Voyager Estate','Tanah Marah','约20分钟']]
+        },
+        {
+          key:'d11', label:'10/4', mode:'10/4 · 洞穴与森林', title:'Lake Cave → Boranup Forest',
+          summary:'固定洞穴与森林作为骨架，Hamelin Bay / Augusta 只在状态好时追加。',
+          route:['tanah','lakecave','boranup','tanah'], times:['25m','15m','35m'],
+          legs:[['Tanah Marah','Lake Cave','约25分钟'],['Lake Cave','Boranup Forest','约15分钟'],['Boranup Forest','Tanah Marah','约35分钟']]
+        },
+        {
+          key:'d12', label:'10/5', mode:'10/5 · 回城还车', title:'Margaret River → Perth Airport',
+          summary:'DFO 短购物或 Swan Valley 伴手礼二选一，17:00 前完成还车。',
+          route:['tanah','shopping','perthairport'], times:['3h15','15–25m'],
+          legs:[['Margaret River','Perth 区域','约3小时15分'],['DFO / Swan Valley','Perth Airport','15–25分钟']]
+        },
+        {
+          key:'d13', label:'10/6', mode:'10/6 · 离开', title:'机场酒店 → T1',
+          summary:'04:50 左右出发，05:20 前抵达国际出发。',
+          route:['airporthotel','perthairport'], times:['10–15m'],
+          legs:[['机场酒店','Perth Airport T1','10–15分钟']]
+        }
+      ];
+
+      const photoSets = {
+        d1: { title:'Perth 城市风景', query:'珀斯 Kings Park 蓝色船屋 Cottesloe', items:[
+          ['assets/wa-trip-photos-jj/D1-9月24日/perth kingpark-1.jpg','Kings Park 城市视角'],
+          ['assets/wa-trip-photos-jj/D1-9月24日/perth-bluehouse5.jpg','Blue Boat House'],
+          ['assets/wa-trip-photos-jj/D1-9月24日/Elizabeth Quay .png','Elizabeth Quay'],
+          ['assets/wa-trip-photos-jj/D1-9月24日/Cottesloe Beach.png','Cottesloe Beach'],
+          ['assets/wa-trip-photos-jj/D1-9月24日/Cottesloe Beach2.png','Cottesloe Beach'],
+          ['assets/wa-trip-photos-jj/D1-9月24日/Cottesloe Beach3.png','Cottesloe Beach'],
+          ['assets/wa-trip-photos-jj/D1-9月24日/perth-kingpark2.jpg','Kings Park 花园'],
+          ['assets/wa-trip-photos-jj/D1-9月24日/perth-kingpark3.jpg','Kings Park 观景'],
+          ['assets/wa-trip-photos-jj/D1-9月24日/perth-kingpark4.jpg','Kings Park 野花季'],
+          ['assets/wa-trip-photos-jj/D1-9月24日/perth-bluehouse6.jpg','蓝色船屋与天鹅河'],
+          ['assets/wa-trip-photos-jj/D1-9月24日/蓝色船坞.png','蓝色船屋']
+        ]},
+        d2: { title:'Rottnest Island', query:'Rottnest Island 西澳 短尾矮袋鼠', items:[
+          ['assets/wa-trip-photos-jj/D2-9月25日/Rottnest 老鼠岛一日游攻略_1_Geerrr_来自小红书网页版.jpg','Rottnest Island 海岛攻略'],
+          ['assets/wa-trip-photos-jj/D2-9月25日/西澳刚回✅一篇讲清楚📍罗特尼斯岛怎么玩_2_shellysang_来自小红书网页版.jpg','Rottnest Island 海湾'],
+          ['assets/wa-trip-photos-jj/D2-9月25日/西澳刚回✅一篇讲清楚📍罗特尼斯岛怎么玩_4_shellysang_来自小红书网页版.jpg','Quokka 与海湾'],
+          ['assets/wa-trip-photos-jj/D2-9月25日/西澳刚回✅一篇讲清楚📍罗特尼斯岛怎么玩_5_shellysang_来自小红书网页版.jpg','Rottnest 骑行视角'],
+          ['assets/wa-trip-photos-jj/D2-9月25日/西澳刚回✅一篇讲清楚📍罗特尼斯岛怎么玩_6_shellysang_来自小红书网页版.jpg','Rottnest 蓝色海岸'],
+          ['assets/wa-trip-photos-jj/D2-9月25日/西澳刚回✅一篇讲清楚📍罗特尼斯岛怎么玩_7_shellysang_来自小红书网页版.jpg','Quokka 合影灵感'],
+          ['assets/wa-trip-photos-jj/D2-9月25日/西澳刚回✅一篇讲清楚📍罗特尼斯岛怎么玩_8_shellysang_来自小红书网页版.jpg','海岛打卡点'],
+          ['assets/wa-trip-photos-jj/D2-9月25日/西澳刚回✅一篇讲清楚📍罗特尼斯岛怎么玩_9_shellysang_来自小红书网页版.jpg','West End 自然景观'],
+          ['assets/wa-trip-photos-jj/D2-9月25日/西澳刚回✅一篇讲清楚📍罗特尼斯岛怎么玩_11_shellysang_来自小红书网页版.jpg','Rottnest 海滩'],
+          ['assets/wa-trip-photos-jj/D2-9月25日/西澳刚回✅一篇讲清楚📍罗特尼斯岛怎么玩_14_shellysang_来自小红书网页版.jpg','海岛一日游']
+        ]},
+        d3: { title:'Caversham Wildlife Park', query:'Caversham Wildlife Park 西澳 考拉 袋鼠', items:[
+          ['assets/wa-trip-photos-jj/D3-9月26日/Caversham Wildlife Park拍照1.jpg','Caversham 拍照点'],
+          ['assets/wa-trip-photos-jj/D3-9月26日/Caversham Wildlife Park拍照2.jpg','动物园互动'],
+          ['assets/wa-trip-photos-jj/D3-9月26日/Caversham Wildlife Park拍照3.jpg','Caversham 亲近动物'],
+          ['assets/wa-trip-photos-jj/D3-9月26日/Caversham Wildlife Park拍照4.jpg','园区拍照灵感'],
+          ['assets/wa-trip-photos-jj/D3-9月26日/Caversham Wildlife Park拍照5.jpg','动物园行程参考'],
+          ['assets/wa-trip-photos-jj/D3-9月26日/Caversham Wildlife Park拍照6.jpg','Caversham 合影灵感'],
+          ['assets/wa-trip-photos-jj/D3-9月26日/Caversham Wildlife Park拍照7.jpg','园内游玩'],
+          ['assets/wa-trip-photos-jj/D3-9月26日/Caversham Wildlife Park拍照8.jpg','动物园小景'],
+          ['assets/wa-trip-photos-jj/D3-9月26日/Caversham Wildlife Park拍照9.jpg','Caversham 轻松游'],
+          ['assets/wa-trip-photos-jj/D3-9月26日/Caversham Wildlife Park拍照10.jpg','动物园拍照'],
+          ['assets/wa-trip-photos-jj/D3-9月26日/Caversham Wildlife Park拍照11.jpg','Caversham Wildlife Park'],
+          ['assets/wa-trip-photos-jj/D3-9月26日/caversham-1.jpg','园内袋鼠草地'],
+          ['assets/wa-trip-photos-jj/D3-9月26日/caversham-3.jpg','Farm Show 动物体验'],
+          ['assets/wa-trip-photos-jj/D3-9月26日/caversham-4.jpg','近距离喂食体验'],
+          ['assets/wa-trip-photos-jj/D3-9月26日/Caversham动物园.png','Caversham 动物园'],
+          ['assets/wa-trip-photos-jj/D3-9月26日/Caversham动物园2.png','Caversham 动物园']
+        ]},
+        d4: { title:'Lancelin 与 Pinnacles', query:'Lancelin 白沙丘 Pinnacles 西澳', items:[
+          ['assets/wa-trip-photos-jj/D4-9月27日/白沙丘.jpg','Lancelin 白沙丘'],
+          ['assets/wa-trip-photos-jj/D4-9月27日/白沙丘2.jpg','白沙丘滑沙'],
+          ['assets/wa-trip-photos-jj/D4-9月27日/尖峰石阵.jpg','Pinnacles 尖峰石阵'],
+          ['assets/wa-trip-photos-jj/D4-9月27日/白沙丘3.jpg','Lancelin 沙丘取景'],
+          ['assets/wa-trip-photos-jj/D4-9月27日/pinnacles-3.jpg','Pinnacles 日落前'],
+          ['assets/wa-trip-photos-jj/D4-9月27日/尖峰石阵.webp','尖峰石阵公园'],
+          ['assets/wa-trip-photos-jj/D4-9月27日/龙虾工厂午饭.jpg','龙虾工厂午餐']
+        ]},
+        d5: { title:'Hutt Lagoon 粉湖', query:'Hutt Lagoon 粉湖 西澳', items:[
+          ['assets/wa-trip-photos-jj/D5-9月28日/粉湖.jpg','Hutt Lagoon 粉湖'],
+          ['assets/wa-trip-photos-jj/D5-9月28日/粉湖2.jpg','粉湖地面取景'],
+          ['assets/wa-trip-photos-jj/D5-9月28日/粉红湖.webp','粉红湖公路视角'],
+          ['assets/wa-trip-photos-jj/D5-9月28日/hutt-4.jpg','Port Gregory 粉湖景观']
+        ]},
+        d6: { title:'Kalbarri 国家公园', query:'Kalbarri 国家公园 Skywalk Nature Window', items:[
+          ['assets/wa-trip-photos-jj/D6-9月29日/Kalbarri National Park1.jpg','Kalbarri 海岸岩桥'],
+          ['assets/wa-trip-photos-jj/D6-9月29日/Kalbarri National Park2.jpg','Kalbarri 红色峡谷'],
+          ['assets/wa-trip-photos-jj/D6-9月29日/Kalbarri National Park3.jpg','国家公园荒野景观']
+        ]},
+        d7: { title:'Jurien Bay 沿途海岸', query:'Jurien Bay 西澳 海滩', items:[
+          ['assets/wa-trip-photos-jj/D7-9月30日/jurien-1.jpg','Jurien Bay 海岸线']
+        ]},
+        d9: { title:'Busselton 与北部海角', query:'Busselton Jetty Cape Naturaliste 西澳', items:[
+          ['assets/wa-trip-photos-jj/D9-10月2日/Busselton .png','Busselton Jetty'],
+          ['assets/wa-trip-photos-jj/D9-10月2日/Busselton Jetty2.jpg','Busselton Jetty 小火车'],
+          ['assets/wa-trip-photos-jj/D9-10月2日/🇦🇺巴瑟尔顿海上小火车.jpg','巴瑟尔顿海上小火车']
+        ]},
+        d10: { title:'Margaret River 酒庄与美食', query:'Margaret River 酒庄 美食 西澳', items:[
+          ['assets/wa-trip-photos-jj/D10-10月3日/Margaret River1.jpg','Margaret River 森林草地'],
+          ['assets/wa-trip-photos-jj/D10-10月3日/Margaret River2.jpg','Margaret River 海岸'],
+          ['assets/wa-trip-photos-jj/D10-10月3日/玛格丽特河.png','玛格丽特河'],
+          ['assets/wa-trip-photos-jj/D10-10月3日/Margaret River3.jpg','南线自然风景'],
+          ['assets/wa-trip-photos-jj/D10-10月3日/Margaret River4.jpg','森林农场休息区'],
+          ['assets/wa-trip-photos-jj/D10-10月3日/Margaret River5.jpg','森林小屋景观']
+        ]},
+        d11: { title:'Boranup 森林与洞穴', query:'Lake Cave Boranup Forest 西澳', items:[
+          ['assets/wa-trip-photos-jj/D11-10月4日/Margaret River洞穴1.jpg','Lake Cave 地下湖与钟乳石'],
+          ['assets/wa-trip-photos-jj/D11-10月4日/Margaret River洞穴2.jpg','洞穴步道与钟乳石']
+        ]}
+      };
+
+      const stopGallery = {
+        perthairport:'d0', airporthotel:'d13', bassendean:'d0', perth:'d1', kingspark:'d1', bluehouse:'d1', elizabeth:'d1', cottesloe:'d1', fremantle:'d1',
+        rottnest:'d2', caversham:'d3', swan:'d3', lancelin:'d4', cervantes:'d4', pinnacles:'d4', geraldton:'d5', hutt:'d5', redbluff:'d5',
+        kalbarri:'d6', skywalk:'d6', naturewindow:'d6', zbend:'d6', naturalbridge:'d6', potalley:'d6', northampton:'d7', jurien:'d7',
+        perthouter:'d8', bunbury:'d8', busselton:'d8', capenaturaliste:'d9', canalrocks:'d9', tanah:'d10', market:'d10', voyager:'d10',
+        lakecave:'d11', boranup:'d11', shopping:'d12'
+      };
+
+      const tabs = document.getElementById('routeMapTabs');
+      const svg = document.getElementById('routeMapSvg');
+      const visual = document.getElementById('routeMapVisual');
+      const tooltip = document.getElementById('routeMapTooltip');
+      const mode = document.getElementById('routeMapMode');
+      const title = document.getElementById('routeMapTitle');
+      const summary = document.getElementById('routeMapSummary');
+      const legs = document.getElementById('routeMapLegs');
+      const preview = document.getElementById('routeMapPreview');
+      let currentIndex = 0;
+      let pinnedPlace = null;
+      let mapZoom = 1;
+      let baseBox = { x:300, y:10, width:330, height:580 };
+      let currentBox = { ...baseBox };
+      const activePointers = new Map();
+      let lastPinchDistance = 0;
+      let lightboxSet = 'd0';
+      let lightboxIndex = 0;
+
+      const lightbox = document.createElement('div');
+      lightbox.className = 'lightbox';
+      lightbox.setAttribute('role', 'dialog');
+      lightbox.setAttribute('aria-modal', 'true');
+      lightbox.setAttribute('aria-label', '目的地照片大图');
+      lightbox.innerHTML = '<button class="lightbox-close" type="button" aria-label="关闭">×</button><button class="lightbox-nav lightbox-prev" type="button" aria-label="上一张">‹</button><figure class="lightbox-figure"><img alt=""><figcaption class="lightbox-caption"></figcaption><small class="lightbox-count"></small></figure><button class="lightbox-nav lightbox-next" type="button" aria-label="下一张">›</button>';
+      document.body.appendChild(lightbox);
+      const lightboxImage = lightbox.querySelector('img');
+      const lightboxCaption = lightbox.querySelector('.lightbox-caption');
+      const lightboxCount = lightbox.querySelector('.lightbox-count');
+
+      function updateLightbox() {
+        const set = photoSets[lightboxSet];
+        const item = set.items[lightboxIndex];
+        lightboxImage.src = item[0];
+        lightboxImage.alt = item[1];
+        lightboxCaption.textContent = set.title + ' · ' + item[1];
+        lightboxCount.textContent = (lightboxIndex + 1) + ' / ' + set.items.length;
+      }
+
+      function openLightbox(setKey, index = 0) {
+        lightboxSet = setKey;
+        lightboxIndex = index;
+        updateLightbox();
+        lightbox.classList.add('open');
+        document.body.classList.add('lightbox-open');
+        lightbox.querySelector('.lightbox-close').focus();
+      }
+
+      function closeLightbox() {
+        lightbox.classList.remove('open');
+        document.body.classList.remove('lightbox-open');
+      }
+
+      function stepLightbox(direction) {
+        const total = photoSets[lightboxSet].items.length;
+        lightboxIndex = (lightboxIndex + direction + total) % total;
+        updateLightbox();
+      }
+
+      lightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+      lightbox.querySelector('.lightbox-prev').addEventListener('click', () => stepLightbox(-1));
+      lightbox.querySelector('.lightbox-next').addEventListener('click', () => stepLightbox(1));
+      lightbox.addEventListener('click', event => { if (event.target === lightbox) closeLightbox(); });
+      document.addEventListener('keydown', event => {
+        if (!lightbox.classList.contains('open')) return;
+        if (event.key === 'Escape') closeLightbox();
+        if (event.key === 'ArrowLeft') stepLightbox(-1);
+        if (event.key === 'ArrowRight') stepLightbox(1);
+      });
+      document.addEventListener('click', event => {
+        const trigger = event.target.closest('[data-lightbox-set]');
+        if (!trigger) return;
+        openLightbox(trigger.dataset.lightboxSet, Number(trigger.dataset.lightboxIndex || 0));
+      });
+
+      function enablePhotoStripDrag(strip) {
+        let isDown = false;
+        let startX = 0;
+        let startScrollLeft = 0;
+        let dragged = false;
+        strip.addEventListener('pointerdown', event => {
+          if (event.pointerType === 'mouse' && event.button !== 0) return;
+          isDown = true;
+          dragged = false;
+          startX = event.clientX;
+          startScrollLeft = strip.scrollLeft;
+          strip.classList.add('dragging');
+          strip.setPointerCapture(event.pointerId);
+        });
+        strip.addEventListener('pointermove', event => {
+          if (!isDown) return;
+          const delta = event.clientX - startX;
+          if (Math.abs(delta) > 5) dragged = true;
+          strip.scrollLeft = startScrollLeft - delta;
+        });
+        function finish(event) {
+          if (!isDown) return;
+          isDown = false;
+          strip.classList.remove('dragging');
+          if (strip.hasPointerCapture(event.pointerId)) strip.releasePointerCapture(event.pointerId);
+          if (dragged) strip.dataset.justDragged = 'true';
+        }
+        strip.addEventListener('pointerup', finish);
+        strip.addEventListener('pointercancel', finish);
+        strip.addEventListener('click', event => {
+          if (strip.dataset.justDragged !== 'true') return;
+          event.preventDefault();
+          event.stopPropagation();
+          strip.dataset.justDragged = 'false';
+        }, true);
+      }
+
+      function appendPreviewPhotos(container, setKey) {
+        const set = photoSets[setKey];
+        if (!set) return;
+        const photos = document.createElement('div');
+        photos.className = 'map-preview-photos';
+        set.items.slice(0, 3).forEach((item, index) => {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.dataset.lightboxSet = setKey;
+          button.dataset.lightboxIndex = String(index);
+          button.setAttribute('aria-label', '查看大图：' + item[1]);
+          const img = document.createElement('img');
+          img.src = item[0];
+          img.alt = item[1];
+          img.loading = 'lazy';
+          button.appendChild(img);
+          photos.appendChild(button);
+        });
+        container.appendChild(photos);
+      }
+
+      function renderPlacePreview(id) {
+        const stop = stops[id];
+        preview.replaceChildren();
+        const small = document.createElement('small');
+        small.textContent = '地点速览';
+        const strong = document.createElement('b');
+        strong.textContent = stop.name;
+        const span = document.createElement('span');
+        span.textContent = stop.desc;
+        preview.append(small, strong, span);
+        appendPreviewPhotos(preview, stopGallery[id]);
+      }
+
+      function mountDayGalleries() {
+        Object.entries(photoSets).forEach(([dayId, set]) => {
+          const day = document.getElementById(dayId);
+          if (!day) return;
+          const gallery = document.createElement('div');
+          gallery.className = 'gallery';
+          const inner = document.createElement('div');
+          inner.className = 'gallery-inner';
+          const head = document.createElement('div');
+          head.className = 'gallery-head';
+          const heading = document.createElement('h4');
+          heading.textContent = set.title + ' · 目的地影集';
+          const link = document.createElement('a');
+          link.href = 'https://www.xiaohongshu.com/search_result?keyword=' + encodeURIComponent(set.query);
+          link.target = '_blank';
+          link.rel = 'noopener';
+          link.textContent = '小红书同地点灵感 ↗';
+          head.append(heading, link);
+          const strip = document.createElement('div');
+          strip.className = 'photo-strip';
+          set.items.forEach((item, index) => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'photo-button';
+            button.dataset.lightboxSet = dayId;
+            button.dataset.lightboxIndex = String(index);
+            button.setAttribute('aria-label', '查看大图：' + item[1]);
+            const img = document.createElement('img');
+            img.src = item[0];
+            img.alt = item[1];
+            img.loading = 'lazy';
+            const caption = document.createElement('span');
+            caption.textContent = item[1];
+            button.append(img, caption);
+            strip.appendChild(button);
+          });
+          enablePhotoStripDrag(strip);
+          inner.append(head, strip);
+          gallery.appendChild(inner);
+          day.appendChild(gallery);
+        });
+      }
+
+      function makeSvg(name, attrs = {}) {
+        const el = document.createElementNS(svgNS, name);
+        Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, value));
+        return el;
+      }
+
+      function drawBase() {
+        svg.replaceChildren();
+        const defs = makeSvg('defs');
+        const marker = makeSvg('marker', { id:'routeArrow', viewBox:'0 0 7 7', markerWidth:'7', markerHeight:'7', refX:'6', refY:'3.5', orient:'auto', markerUnits:'userSpaceOnUse' });
+        marker.appendChild(makeSvg('path', { d:'M 0 0 L 7 3.5 L 0 7 Z', fill:'#4262ff' }));
+        defs.appendChild(marker);
+        svg.appendChild(defs);
+        svg.appendChild(makeSvg('rect', { x:'0', y:'0', width:'800', height:'620', fill:'#f7f8fa' }));
+        svg.appendChild(makeSvg('path', { d:'M 445 0 C 430 55 443 98 419 150 C 403 188 415 228 399 272 C 385 315 410 350 420 390 C 430 430 416 468 420 510 C 423 548 410 580 421 620 L 800 620 L 800 0 Z', fill:'#f5f3ff' }));
+        svg.appendChild(makeSvg('path', { class:'map-coast', d:'M 445 0 C 430 55 443 98 419 150 C 403 188 415 228 399 272 C 385 315 410 350 420 390 C 430 430 416 468 420 510 C 423 548 410 580 421 620' }));
+        const sea = makeSvg('text', { class:'map-sea-label', x:'328', y:'305', transform:'rotate(-90 328 305)' });
+        sea.textContent = 'INDIAN OCEAN';
+        svg.appendChild(sea);
+        const region = makeSvg('text', { class:'map-region-label', x:'510', y:'315' });
+        region.textContent = 'WESTERN AUSTRALIA';
+        svg.appendChild(region);
+      }
+
+      function fittedViewBox(view) {
+        if (view.fixedViewBox) return view.fixedViewBox;
+        const points = [...new Set(view.route)].map(id => stops[id]);
+        const xs = points.map(p => p.x);
+        const ys = points.map(p => p.y);
+        const minX = Math.min(...xs), maxX = Math.max(...xs), minY = Math.min(...ys), maxY = Math.max(...ys);
+        let width = Math.max(200, maxX - minX + 150);
+        let height = Math.max(150, maxY - minY + 120);
+        const ratio = 1.28;
+        if (width / height < ratio) width = height * ratio;
+        else height = width / ratio;
+        const cx = (minX + maxX) / 2;
+        const cy = (minY + maxY) / 2;
+        return [cx - width / 2, cy - height / 2, width, height].map(n => Math.round(n * 10) / 10).join(' ');
+      }
+
+      function parseViewBox(value) {
+        const [x, y, width, height] = value.split(/\s+/).map(Number);
+        return { x, y, width, height };
+      }
+
+      function clampCurrentBox() {
+        const maxX = baseBox.x + baseBox.width - currentBox.width;
+        const maxY = baseBox.y + baseBox.height - currentBox.height;
+        currentBox.x = Math.max(baseBox.x, Math.min(maxX, currentBox.x));
+        currentBox.y = Math.max(baseBox.y, Math.min(maxY, currentBox.y));
+      }
+
+      function applyViewport() {
+        clampCurrentBox();
+        svg.setAttribute('viewBox', [currentBox.x, currentBox.y, currentBox.width, currentBox.height].join(' '));
+        const inverse = 1 / mapZoom;
+        svg.querySelectorAll('.map-stop').forEach(group => {
+          const x = Number(group.dataset.x);
+          const y = Number(group.dataset.y);
+          group.setAttribute('transform', 'translate(' + x + ' ' + y + ') scale(' + inverse + ') translate(' + (-x) + ' ' + (-y) + ')');
+        });
+        svg.querySelectorAll('.map-time').forEach(group => {
+          group.setAttribute('transform', 'translate(' + group.dataset.x + ' ' + group.dataset.y + ') scale(' + inverse + ')');
+        });
+        const arrow = svg.querySelector('#routeArrow');
+        if (arrow) {
+          arrow.setAttribute('markerWidth', String(7 * inverse));
+          arrow.setAttribute('markerHeight', String(7 * inverse));
+        }
+      }
+
+      function resetViewport() {
+        mapZoom = 1;
+        currentBox = { ...baseBox };
+        applyViewport();
+      }
+
+      function zoomAt(factor, clientX, clientY) {
+        const nextZoom = Math.max(1, Math.min(6, mapZoom * factor));
+        if (Math.abs(nextZoom - mapZoom) < 0.001) return;
+        const rect = visual.getBoundingClientRect();
+        const ratioX = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+        const ratioY = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
+        const anchorX = currentBox.x + currentBox.width * ratioX;
+        const anchorY = currentBox.y + currentBox.height * ratioY;
+        mapZoom = nextZoom;
+        const width = baseBox.width / mapZoom;
+        const height = baseBox.height / mapZoom;
+        currentBox = { x:anchorX - width * ratioX, y:anchorY - height * ratioY, width, height };
+        applyViewport();
+      }
+
+      function panBy(pixelX, pixelY) {
+        if (mapZoom <= 1) return;
+        const rect = visual.getBoundingClientRect();
+        currentBox.x -= pixelX * currentBox.width / rect.width;
+        currentBox.y -= pixelY * currentBox.height / rect.height;
+        applyViewport();
+      }
+
+      function showPlace(id, group) {
+        const stop = stops[id];
+        document.querySelectorAll('.map-stop.active').forEach(el => el.classList.remove('active'));
+        group.classList.add('active');
+        renderPlacePreview(id);
+        tooltip.replaceChildren();
+        const tipTitle = document.createElement('b');
+        tipTitle.textContent = stop.name;
+        const tipText = document.createElement('span');
+        tipText.textContent = stop.desc;
+        tooltip.append(tipTitle, tipText);
+        const gRect = group.getBoundingClientRect();
+        const vRect = visual.getBoundingClientRect();
+        const left = Math.max(126, Math.min(vRect.width - 126, gRect.left - vRect.left + gRect.width / 2));
+        const top = Math.max(98, gRect.top - vRect.top);
+        tooltip.style.left = left + 'px';
+        tooltip.style.top = top + 'px';
+        tooltip.classList.add('show');
+      }
+
+      function hideTooltip(force = false) {
+        if (pinnedPlace && !force) return;
+        tooltip.classList.remove('show');
+        document.querySelectorAll('.map-stop.active').forEach(el => el.classList.remove('active'));
+      }
+
+      function drawRoute(view) {
+        drawBase();
+        baseBox = parseViewBox(fittedViewBox(view));
+        currentBox = { ...baseBox };
+        mapZoom = 1;
+        for (let i = 0; i < view.route.length - 1; i += 1) {
+          const from = stops[view.route[i]];
+          const to = stops[view.route[i + 1]];
+          const line = makeSvg('line', { class:'map-route-line', x1:from.x, y1:from.y, x2:to.x, y2:to.y, 'marker-end':'url(#routeArrow)' });
+          svg.appendChild(line);
+          const time = view.times[i];
+          const length = Math.hypot(to.x - from.x, to.y - from.y);
+          if (time && length > 8) {
+            const nx = -(to.y - from.y) / length;
+            const ny = (to.x - from.x) / length;
+            const offset = i % 2 ? -11 : 11;
+            const mx = (from.x + to.x) / 2 + nx * offset;
+            const my = (from.y + to.y) / 2 + ny * offset;
+            const width = Math.max(30, time.length * 5.4 + 13);
+            const g = makeSvg('g', { class:'map-time', transform:'translate(' + mx + ' ' + my + ')' });
+            g.dataset.x = String(mx);
+            g.dataset.y = String(my);
+            g.appendChild(makeSvg('rect', { x:-width / 2, y:'-7', width, height:'14', rx:'7' }));
+            const text = makeSvg('text', { x:'0', y:'0.5' });
+            text.textContent = time;
+            g.appendChild(text);
+            svg.appendChild(g);
+          }
+        }
+
+        const unique = [];
+        view.route.forEach((id, index) => {
+          if (!unique.some(item => item.id === id)) unique.push({ id, index });
+        });
+        unique.forEach(({ id }, markerIndex) => {
+          const stop = stops[id];
+          const group = makeSvg('g', { class:'map-stop', tabindex:'0', role:'button', 'aria-label':stop.name + '：' + stop.desc });
+          group.dataset.x = String(stop.x);
+          group.dataset.y = String(stop.y);
+          group.appendChild(makeSvg('circle', { class:'marker-halo', cx:stop.x, cy:stop.y, r:'8' }));
+          const order = makeSvg('text', { class:'marker-order', x:stop.x, y:stop.y + 0.3 });
+          order.textContent = String(markerIndex + 1);
+          group.appendChild(order);
+          const label = makeSvg('text', { class:'map-label', x:stop.x + stop.dx, y:stop.y + stop.dy, 'text-anchor':stop.anchor || 'start' });
+          label.textContent = stop.name;
+          group.appendChild(label);
+          if (view.dates && view.dates[id]) {
+            const date = makeSvg('text', { class:'map-date-label', x:stop.x + stop.dx, y:stop.y + stop.dy + 12, 'text-anchor':stop.anchor || 'start' });
+            date.textContent = view.dates[id];
+            group.appendChild(date);
+          }
+          group.addEventListener('mouseenter', () => showPlace(id, group));
+          group.addEventListener('mouseleave', hideTooltip);
+          group.addEventListener('focus', () => showPlace(id, group));
+          group.addEventListener('blur', hideTooltip);
+          group.addEventListener('click', event => { event.stopPropagation(); pinnedPlace = id; showPlace(id, group); });
+          group.addEventListener('keydown', event => {
+            if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); showPlace(id, group); }
+          });
+          svg.appendChild(group);
+        });
+        applyViewport();
+      }
+
+      function render(index) {
+        currentIndex = index;
+        pinnedPlace = null;
+        const view = views[index];
+        [...tabs.children].forEach((button, i) => {
+          button.setAttribute('aria-selected', String(i === index));
+          button.tabIndex = i === index ? 0 : -1;
+        });
+        mode.textContent = view.mode;
+        title.textContent = view.title;
+        summary.textContent = view.summary;
+        legs.replaceChildren();
+        view.legs.forEach(([from, to, time]) => {
+          const item = document.createElement('li');
+          const route = document.createElement('span');
+          route.className = 'map-leg-route';
+          route.textContent = from + ' → ' + to;
+          const duration = document.createElement('span');
+          duration.className = 'map-leg-time';
+          duration.textContent = time;
+          item.append(route, duration);
+          legs.appendChild(item);
+        });
+        drawRoute(view);
+        renderPlacePreview(view.route[0]);
+        hideTooltip(true);
+      }
+
+      views.forEach((view, index) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'route-tab';
+        button.setAttribute('role', 'tab');
+        button.setAttribute('aria-selected', String(index === 0));
+        button.tabIndex = index === 0 ? 0 : -1;
+        button.textContent = view.label;
+        button.addEventListener('click', () => render(index));
+        button.addEventListener('keydown', event => {
+          if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+          event.preventDefault();
+          const next = (currentIndex + (event.key === 'ArrowRight' ? 1 : -1) + views.length) % views.length;
+          render(next);
+          tabs.children[next].focus();
+        });
+        tabs.appendChild(button);
+      });
+      visual.addEventListener('click', event => {
+        if (!event.target.closest('.map-stop')) { pinnedPlace = null; hideTooltip(true); }
+      });
+      visual.addEventListener('wheel', event => {
+        event.preventDefault();
+        zoomAt(event.deltaY < 0 ? 1.18 : 1 / 1.18, event.clientX, event.clientY);
+      }, { passive:false });
+
+      svg.addEventListener('pointerdown', event => {
+        if (event.target.closest('.map-stop')) return;
+        activePointers.set(event.pointerId, { x:event.clientX, y:event.clientY });
+        svg.setPointerCapture(event.pointerId);
+        visual.classList.add('dragging');
+        if (activePointers.size === 2) {
+          const points = [...activePointers.values()];
+          lastPinchDistance = Math.hypot(points[0].x - points[1].x, points[0].y - points[1].y);
+        }
+      });
+      svg.addEventListener('pointermove', event => {
+        if (!activePointers.has(event.pointerId)) return;
+        const previous = activePointers.get(event.pointerId);
+        activePointers.set(event.pointerId, { x:event.clientX, y:event.clientY });
+        if (activePointers.size === 1) {
+          panBy(event.clientX - previous.x, event.clientY - previous.y);
+          return;
+        }
+        if (activePointers.size === 2) {
+          const points = [...activePointers.values()];
+          const distance = Math.hypot(points[0].x - points[1].x, points[0].y - points[1].y);
+          const centerX = (points[0].x + points[1].x) / 2;
+          const centerY = (points[0].y + points[1].y) / 2;
+          if (lastPinchDistance > 0) zoomAt(distance / lastPinchDistance, centerX, centerY);
+          lastPinchDistance = distance;
+        }
+      });
+      function finishPointer(event) {
+        activePointers.delete(event.pointerId);
+        if (svg.hasPointerCapture(event.pointerId)) svg.releasePointerCapture(event.pointerId);
+        if (activePointers.size < 2) lastPinchDistance = 0;
+        if (activePointers.size === 0) visual.classList.remove('dragging');
+      }
+      svg.addEventListener('pointerup', finishPointer);
+      svg.addEventListener('pointercancel', finishPointer);
+      mountDayGalleries();
+      render(0);
+    })();
+  </script>
+</body>
+</html>
